@@ -155,63 +155,75 @@
   }
   .btn-ghost:hover { border-color: var(--accent-yellow); color: var(--accent-yellow); }
 
-  /* Decorative scribble in hero — positioned above the CTA button, pointing down at it */
+  /* Handwritten scribble — positioned next to the primary CTA, pointing right at it */
   .scribble-note {
-    position: absolute;
-    top: -105px;
-    left: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
     font-family: 'Caveat', cursive;
     font-size: 26px;
     color: var(--accent-pink);
-    transform: rotate(-4deg);
-    max-width: 200px;
-    line-height: 1.2;
+    line-height: 1.15;
     pointer-events: none;
-    margin: 0;
+    margin: 0 0 0 8px;
+    transform: rotate(-3deg);
+    order: 99; /* push to end of flex row */
   }
-  .scribble-note::after {
-    content: "↓";
-    display: block;
-    font-size: 38px;
+  .scribble-note .arrow-wiggle {
+    display: inline-block;
+    font-size: 34px;
     line-height: 1;
-    margin-top: 4px;
-    margin-left: 40px;
-    transform: rotate(15deg);
+    transform: rotate(170deg);
+    color: var(--accent-pink);
   }
   @media (max-width: 900px) { .scribble-note { display: none; } }
 
-  /* Make cta-row relative so scribble-note can anchor to it */
-  .cta-row { position: relative; }
-
-  /* Top-right corner tag — reinforces the "real teacher" story */
-  .hero-corner-tag {
+  /* Top-right corner — Pi mascot with googly eyes (pure SVG, reliable) */
+  .hero-mascot {
     position: absolute;
-    top: 70px;
+    top: 40px;
     right: 6vw;
-    font-family: 'Caveat', cursive;
-    color: var(--accent-yellow);
-    max-width: 220px;
-    text-align: right;
-    line-height: 1.15;
-    transform: rotate(3deg);
+    width: 150px;
+    text-align: center;
     pointer-events: none;
+    animation: mascot-float 4s ease-in-out infinite;
+    z-index: 5;
   }
-  .hero-corner-tag .line1 {
-    display: block;
-    font-size: 22px;
-    color: var(--accent-cyan);
+  @keyframes mascot-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
   }
-  .hero-corner-tag .line2 {
-    display: block;
-    font-size: 28px;
+  .hero-mascot svg { width: 130px; height: auto; display: block; margin: 0 auto; }
+  .pi-pupil-left { animation: pupil-left 3s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+  .pi-pupil-right { animation: pupil-right 3s ease-in-out infinite 0.4s; transform-origin: center; transform-box: fill-box; }
+  @keyframes pupil-left {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(3px, 0); }
+    50% { transform: translate(-3px, 1px); }
+    75% { transform: translate(0, -2px); }
+  }
+  @keyframes pupil-right {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(-3px, 1px); }
+    50% { transform: translate(3px, -1px); }
+    75% { transform: translate(0, 2px); }
+  }
+  .pi-eye-blink { animation: eye-blink 5s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+  @keyframes eye-blink {
+    0%, 92%, 100% { transform: scaleY(1); }
+    94%, 98% { transform: scaleY(0.05); }
+  }
+  .mascot-caption {
+    font-family: 'Caveat', cursive;
+    font-size: 17px;
+    color: rgba(244, 228, 193, 0.8);
+    line-height: 1.2;
+    transform: rotate(-2deg);
     margin-top: 4px;
+    text-align: center;
   }
-  .hero-corner-tag .sparkle {
-    display: inline-block;
-    margin-left: 6px;
-    transform: rotate(-12deg);
-  }
-  @media (max-width: 900px) { .hero-corner-tag { display: none; } }
+
+  @media (max-width: 900px) { .hero-mascot { display: none; } }
 
   /* ============ SECTIONS ============ */
   section {
@@ -520,9 +532,35 @@
 
 <!-- ===================== HERO ===================== -->
 <section class="hero">
-  <div class="hero-corner-tag">
-    <span class="line1">— made by an actual</span>
-    <span class="line2">Grade 8 teacher<span class="sparkle">✨</span></span>
+  <div class="hero-mascot" aria-hidden="true">
+    <svg viewBox="0 0 140 150" xmlns="http://www.w3.org/2000/svg">
+      <!-- Pi symbol drawn as paths, not text, so fonts don't matter -->
+      <!-- Pink shadow behind Pi -->
+      <g transform="translate(4, 4)" opacity="0.5">
+        <rect x="20" y="20" width="100" height="12" rx="2" fill="#e8809a"/>
+        <rect x="32" y="32" width="14" height="76" rx="2" fill="#e8809a"/>
+        <rect x="94" y="32" width="14" height="70" rx="2" fill="#e8809a"/>
+        <path d="M 94 102 Q 102 118 116 110" stroke="#e8809a" stroke-width="12" fill="none" stroke-linecap="round"/>
+      </g>
+      <!-- Yellow Pi -->
+      <g>
+        <rect x="20" y="20" width="100" height="12" rx="2" fill="#f5d96e"/>
+        <rect x="32" y="32" width="14" height="76" rx="2" fill="#f5d96e"/>
+        <rect x="94" y="32" width="14" height="70" rx="2" fill="#f5d96e"/>
+        <path d="M 94 102 Q 102 118 116 110" stroke="#f5d96e" stroke-width="12" fill="none" stroke-linecap="round"/>
+      </g>
+      <!-- Googly eye 1 (left) -->
+      <g class="pi-eye-blink">
+        <circle cx="55" cy="65" r="13" fill="#fffaf0" stroke="#2d2438" stroke-width="2.5"/>
+        <circle class="pi-pupil-left" cx="55" cy="65" r="5" fill="#2d2438"/>
+      </g>
+      <!-- Googly eye 2 (right) -->
+      <g class="pi-eye-blink">
+        <circle cx="85" cy="65" r="13" fill="#fffaf0" stroke="#2d2438" stroke-width="2.5"/>
+        <circle class="pi-pupil-right" cx="85" cy="65" r="5" fill="#2d2438"/>
+      </g>
+    </svg>
+    <div class="mascot-caption">Built by<br>a real teacher</div>
   </div>
 
   <div class="eyebrow">An interactive math experience · Grade 8</div>
@@ -545,7 +583,10 @@
     <a href="#about" class="btn-ghost">
       Learn more
     </a>
-    <p class="scribble-note">start here<br>if you're curious</p>
+    <span class="scribble-note">
+      <span class="arrow-wiggle">↪</span>
+      start here if you're curious
+    </span>
   </div>
 </section>
 
