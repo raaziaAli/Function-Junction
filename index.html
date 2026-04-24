@@ -158,14 +158,14 @@
   /* Decorative scribble in hero — positioned above the CTA button, pointing down at it */
   .scribble-note {
     position: absolute;
-    top: -70px;
-    left: 40px;
+    top: -105px;
+    left: 20px;
     font-family: 'Caveat', cursive;
     font-size: 26px;
     color: var(--accent-pink);
     transform: rotate(-4deg);
     max-width: 200px;
-    line-height: 1.15;
+    line-height: 1.2;
     pointer-events: none;
     margin: 0;
   }
@@ -174,7 +174,7 @@
     display: block;
     font-size: 38px;
     line-height: 1;
-    margin-top: 2px;
+    margin-top: 4px;
     margin-left: 40px;
     transform: rotate(15deg);
   }
@@ -182,6 +182,36 @@
 
   /* Make cta-row relative so scribble-note can anchor to it */
   .cta-row { position: relative; }
+
+  /* Top-right corner tag — reinforces the "real teacher" story */
+  .hero-corner-tag {
+    position: absolute;
+    top: 70px;
+    right: 6vw;
+    font-family: 'Caveat', cursive;
+    color: var(--accent-yellow);
+    max-width: 220px;
+    text-align: right;
+    line-height: 1.15;
+    transform: rotate(3deg);
+    pointer-events: none;
+  }
+  .hero-corner-tag .line1 {
+    display: block;
+    font-size: 22px;
+    color: var(--accent-cyan);
+  }
+  .hero-corner-tag .line2 {
+    display: block;
+    font-size: 28px;
+    margin-top: 4px;
+  }
+  .hero-corner-tag .sparkle {
+    display: inline-block;
+    margin-left: 6px;
+    transform: rotate(-12deg);
+  }
+  @media (max-width: 900px) { .hero-corner-tag { display: none; } }
 
   /* ============ SECTIONS ============ */
   section {
@@ -490,6 +520,11 @@
 
 <!-- ===================== HERO ===================== -->
 <section class="hero">
+  <div class="hero-corner-tag">
+    <span class="line1">— made by an actual</span>
+    <span class="line2">Grade 8 teacher<span class="sparkle">✨</span></span>
+  </div>
+
   <div class="eyebrow">An interactive math experience · Grade 8</div>
 
   <h1>
