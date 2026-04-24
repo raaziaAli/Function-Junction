@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Thinking Classroom · Functions · Grade 8</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --chalk: #f4f1e8;
+    --ink: #1a1a2e;
+    --board: #0d2818;
+    --board-light: #16382a;
+    --accent-pink: #ff5e87;
+    --accent-yellow: #ffd93d;
+    --accent-cyan: #4ad3e0;
+    --accent-orange: #ff8c42;
+    --accent-lime: #a8e83e;
+    --accent-violet: #b983ff;
+    --paper: #fff9ee;
+    --shadow: rgba(26, 26, 46, 0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 22px;
+    line-height: 1.55;
+    color: var(--ink);
+    background: var(--paper);
+    background-image:
+      radial-gradient(circle at 20% 15%, rgba(255, 217, 61, 0.08) 0%, transparent 35%),
+      radial-gradient(circle at 80% 75%, rgba(74, 211, 224, 0.06) 0%, transparent 35%);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* === HANDWRITTEN / DISPLAY TYPE === */
+  .hand { font-family: 'Caveat', cursive; font-weight: 700; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+
+  /* === TOP BANNER === */
+  header {
+    background: var(--board);
+    color: var(--chalk);
+    padding: 28px 5vw 42px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 4px solid var(--accent-yellow);
+  }
+
+  header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 2% 20%, rgba(255,255,255,0.04) 0%, transparent 4%),
+      radial-gradient(circle at 12% 60%, rgba(255,255,255,0.05) 0%, transparent 5%),
+      radial-gradient(circle at 40% 10%, rgba(255,255,255,0.03) 0%, transparent 6%),
+      radial-gradient(circle at 80% 40%, rgba(255,255,255,0.04) 0%, transparent 5%),
+      radial-gradient(circle at 95% 85%, rgba(255,255,255,0.05) 0%, transparent 4%);
+    pointer-events: none;
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-yellow);
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: clamp(44px, 7vw, 88px);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+    color: var(--chalk);
+  }
+  h1 .under {
+    background: linear-gradient(180deg, transparent 65%, var(--accent-pink) 65%, var(--accent-pink) 90%, transparent 90%);
+    padding: 0 4px;
+  }
+  h1 em {
+    font-family: 'Caveat', cursive;
+    font-style: normal;
+    color: var(--accent-yellow);
+    font-weight: 700;
+    font-size: 1.1em;
+  }
+
+  .tagline {
+    font-size: clamp(18px, 2vw, 24px);
+    color: rgba(244, 241, 232, 0.8);
+    max-width: 780px;
+    font-style: italic;
+  }
+
+  /* === NAV / LESSON DOTS === */
+  .lesson-nav {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 28px;
+    align-items: center;
+  }
+  .lesson-nav .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: rgba(244, 241, 232, 0.6);
+    margin-right: 6px;
+    letter-spacing: 0.1em;
+  }
+  .dot {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    color: var(--chalk);
+    border: 2px solid rgba(255,255,255,0.2);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .dot:hover { background: var(--accent-yellow); color: var(--board); transform: translateY(-3px) rotate(-4deg); }
+
+  /* === MAIN LAYOUT === */
+  main {
+    padding: 60px 5vw 120px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* === THINKING TASK BLOCKS === */
+  .task {
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: 4px;
+    padding: 40px 44px;
+    margin-bottom: 64px;
+    position: relative;
+    box-shadow: 8px 8px 0 var(--ink);
+    scroll-margin-top: 40px;
+  }
+
+  .task::before {
+    content: attr(data-number);
+    position: absolute;
+    top: -26px;
+    left: 30px;
+    background: var(--accent-yellow);
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 8px 16px;
+    letter-spacing: 0.15em;
+    border: 3px solid var(--ink);
+    border-radius: 3px;
+    transform: rotate(-2deg);
+  }
+
+  .task[data-color="pink"] { box-shadow: 8px 8px 0 var(--accent-pink); }
+  .task[data-color="cyan"] { box-shadow: 8px 8px 0 var(--accent-cyan); }
+  .task[data-color="orange"] { box-shadow: 8px 8px 0 var(--accent-orange); }
+  .task[data-color="violet"] { box-shadow: 8px 8px 0 var(--accent-violet); }
+  .task[data-color="lime"] { box-shadow: 8px 8px 0 var(--accent-lime); }
+
+  .task h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: clamp(32px, 4vw, 48px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+
+  .task .kicker {
+    font-family: 'Caveat', cursive;
+    font-size: 30px;
+    color: var(--accent-pink);
+    margin-bottom: 20px;
+    transform: rotate(-1deg);
+    display: inline-block;
+  }
+
+  .task p { font-size: 22px; margin-bottom: 18px; }
+
+  .task .prompt {
+    background: var(--board);
+    color: var(--chalk);
+    padding: 28px 32px;
+    border-radius: 3px;
+    font-size: 26px;
+    line-height: 1.45;
+    margin: 24px 0;
+    position: relative;
+    border-left: 6px solid var(--accent-yellow);
+  }
+
+  .task .prompt .hand {
+    color: var(--accent-yellow);
+    font-size: 32px;
+  }
+
+  /* === NOTICE & WONDER === */
+  .notice-wonder {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-top: 26px;
+  }
+  @media (max-width: 720px) {
+    .notice-wonder { grid-template-columns: 1fr; }
+  }
+  .nw-box {
+    background: var(--chalk);
+    border: 2px dashed var(--ink);
+    padding: 20px 22px;
+    border-radius: 3px;
+    min-height: 160px;
+  }
+  .nw-box h4 {
+    font-family: 'Caveat', cursive;
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
+  .nw-box.notice h4 { color: var(--accent-cyan); }
+  .nw-box.wonder h4 { color: var(--accent-pink); }
+  .nw-box textarea {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-family: 'Caveat', cursive;
+    font-size: 24px;
+    resize: vertical;
+    min-height: 120px;
+    outline: none;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+
+  /* === BUTTONS === */
+  .btn {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 14px 22px;
+    border: 3px solid var(--ink);
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.2s;
+    margin: 6px 8px 6px 0;
+  }
+  .btn:hover { background: var(--accent-yellow); color: var(--ink); transform: translateY(-2px); }
+  .btn.ghost { background: transparent; color: var(--ink); }
+  .btn.ghost:hover { background: var(--ink); color: var(--paper); }
+  .btn.accent { background: var(--accent-pink); color: var(--paper); border-color: var(--accent-pink); }
+  .btn.accent:hover { background: var(--ink); color: var(--accent-yellow); border-color: var(--ink); }
+
+  /* === HINT CARDS (never give the answer) === */
+  .hint {
+    background: #fff3d6;
+    border-left: 6px solid var(--accent-orange);
+    padding: 18px 22px;
+    margin: 18px 0;
+    border-radius: 3px;
+    display: none;
+    font-size: 20px;
+  }
+  .hint.show { display: block; animation: pop 0.3s ease-out; }
+  .hint strong { font-family: 'Caveat', cursive; font-size: 26px; color: var(--accent-orange); display: block; margin-bottom: 4px;}
+
+  @keyframes pop {
+    0% { transform: scale(0.95); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  /* === INTERACTIVES === */
+  .interactive {
+    background: var(--board);
+    color: var(--chalk);
+    padding: 30px;
+    border-radius: 4px;
+    margin: 26px 0;
+    border: 3px solid var(--ink);
+    position: relative;
+  }
+  .interactive .caption {
+    font-family: 'Caveat', cursive;
+    font-size: 26px;
+    color: var(--accent-yellow);
+    margin-bottom: 14px;
+  }
+
+  /* Slope Slider Lab */
+  .slope-lab {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 26px;
+    align-items: center;
+  }
+  @media (max-width: 900px) {
+    .slope-lab { grid-template-columns: 1fr; }
+  }
+  .slope-lab svg { width: 100%; height: auto; background: var(--board-light); border-radius: 4px; }
+  .controls { display: flex; flex-direction: column; gap: 18px; }
+  .controls .readout {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    background: var(--board-light);
+    padding: 14px 18px;
+    border-radius: 3px;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .controls .readout .val { color: var(--accent-yellow); font-weight: 700; }
+  .controls label {
+    font-family: 'Caveat', cursive;
+    font-size: 26px;
+    color: var(--accent-cyan);
+    display: block;
+    margin-bottom: 6px;
+  }
+  input[type="range"] {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 8px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 4px;
+    outline: none;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--accent-yellow);
+    cursor: pointer;
+    border: 3px solid var(--board);
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--accent-yellow);
+    cursor: pointer;
+    border: 3px solid var(--board);
+  }
+  .equation-display {
+    font-family: 'Fraunces', serif;
+    font-size: 42px;
+    font-style: italic;
+    text-align: center;
+    padding: 18px;
+    background: var(--board-light);
+    border-radius: 4px;
+    color: var(--chalk);
+  }
+  .equation-display .m { color: var(--accent-pink); }
+  .equation-display .b { color: var(--accent-lime); }
+
+  /* Pattern grid for Task 1 */
+  .pattern-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin: 22px 0;
+  }
+  @media (max-width: 720px) {
+    .pattern-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  .pattern-step {
+    background: var(--board-light);
+    border: 2px solid rgba(255,255,255,0.15);
+    padding: 18px;
+    border-radius: 4px;
+    text-align: center;
+    transition: all 0.3s;
+  }
+  .pattern-step:hover { border-color: var(--accent-yellow); transform: translateY(-3px); }
+  .pattern-step .step-num {
+    font-family: 'Caveat', cursive;
+    font-size: 28px;
+    color: var(--accent-pink);
+    margin-bottom: 8px;
+  }
+  .pattern-step .dots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: center;
+    margin: 10px 0;
+    min-height: 80px;
+    align-items: center;
+  }
+  .pattern-step .dot-small {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--accent-yellow);
+  }
+  .pattern-step .count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: rgba(244,241,232,0.7);
+  }
+
+  /* Multi-rep matcher */
+  .matcher {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin: 24px 0;
+  }
+  @media (max-width: 900px) {
+    .matcher { grid-template-columns: repeat(2, 1fr); }
+  }
+  .rep-card {
+    background: var(--chalk);
+    border: 3px solid var(--ink);
+    padding: 16px;
+    border-radius: 3px;
+    cursor: pointer;
+    min-height: 180px;
+    font-size: 17px;
+    position: relative;
+    transition: all 0.2s;
+    color: var(--ink);
+  }
+  .rep-card:hover { transform: translateY(-3px); }
+  .rep-card.selected { background: var(--accent-yellow); border-color: var(--accent-pink); border-width: 4px;}
+  .rep-card.matched { background: var(--accent-lime); cursor: default; }
+  .rep-card .rep-type {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent-pink);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 8px;
+  }
+  .rep-card table {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 15px;
+    border-collapse: collapse;
+    margin: 4px auto;
+  }
+  .rep-card td { padding: 3px 10px; border: 1px solid var(--ink); }
+  .rep-card svg { width: 100%; height: 100px; }
+
+  .match-feedback {
+    font-family: 'Caveat', cursive;
+    font-size: 28px;
+    min-height: 40px;
+    color: var(--accent-lime);
+    margin-top: 10px;
+  }
+
+  /* Scatter plot tool */
+  .scatter-lab { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start;}
+  @media (max-width: 900px) { .scatter-lab { grid-template-columns: 1fr; } }
+
+  /* Does Line Fit? */
+  .fit-buttons { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px;}
+  .fit-buttons button {
+    flex: 1;
+    background: var(--board-light);
+    color: var(--chalk);
+    border: 2px solid rgba(255,255,255,0.2);
+    padding: 14px;
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+    cursor: pointer;
+    border-radius: 3px;
+    min-width: 140px;
+  }
+  .fit-buttons button.active { background: var(--accent-pink); border-color: var(--accent-pink); color: var(--paper);}
+
+  /* Mindset Moments */
+  .mindset {
+    background: linear-gradient(135deg, var(--accent-pink), var(--accent-orange));
+    color: var(--paper);
+    padding: 30px 36px;
+    border-radius: 4px;
+    margin: 44px 0;
+    position: relative;
+    border: 3px solid var(--ink);
+    box-shadow: 8px 8px 0 var(--ink);
+  }
+  .mindset .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.9;
+    margin-bottom: 8px;
+  }
+  .mindset blockquote {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(30px, 4vw, 42px);
+    line-height: 1.1;
+    margin-bottom: 10px;
+  }
+  .mindset cite {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 18px;
+    opacity: 0.9;
+  }
+
+  /* Teacher notes - collapsed */
+  details.teacher {
+    margin-top: 24px;
+    background: #e8f4ea;
+    border: 2px dashed var(--board);
+    border-radius: 3px;
+    padding: 12px 18px;
+  }
+  details.teacher summary {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--board);
+    cursor: pointer;
+    padding: 8px 0;
+  }
+  details.teacher[open] summary { margin-bottom: 12px;}
+  details.teacher p { font-size: 19px; line-height: 1.5;}
+
+  /* Section dividers */
+  .divider {
+    text-align: center;
+    margin: 80px 0 40px;
+    position: relative;
+  }
+  .divider .chapter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    color: var(--accent-pink);
+    margin-bottom: 12px;
+  }
+  .divider h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: clamp(38px, 5vw, 64px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .divider h3 .scribble {
+    font-family: 'Caveat', cursive;
+    color: var(--accent-pink);
+    font-weight: 700;
+    display: inline-block;
+    transform: rotate(-3deg);
+  }
+
+  /* Footer */
+  footer {
+    background: var(--board);
+    color: var(--chalk);
+    padding: 48px 5vw;
+    text-align: center;
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    line-height: 1.5;
+  }
+  footer .hand-footer {
+    font-family: 'Caveat', cursive;
+    font-size: 40px;
+    color: var(--accent-yellow);
+    margin-bottom: 10px;
+  }
+
+  /* Data table styling */
+  .data-table {
+    width: 100%;
+    max-width: 520px;
+    margin: 16px auto;
+    border-collapse: collapse;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+  }
+  .data-table th, .data-table td {
+    padding: 10px 14px;
+    border: 2px solid var(--ink);
+    text-align: center;
+  }
+  .data-table th { background: var(--ink); color: var(--paper); font-size: 16px; letter-spacing: 0.1em;}
+  .data-table tbody tr:nth-child(even) { background: #fff6da; }
+
+  /* Toggle Tabs for multi-path */
+  .path-tabs {
+    display: flex;
+    gap: 0;
+    margin-top: 22px;
+    flex-wrap: wrap;
+    border-bottom: 3px solid var(--ink);
+  }
+  .path-tabs button {
+    flex: 1;
+    min-width: 140px;
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-bottom: none;
+    padding: 14px 16px;
+    font-family: 'Caveat', cursive;
+    font-size: 24px;
+    cursor: pointer;
+    margin-bottom: -3px;
+    color: var(--ink);
+  }
+  .path-tabs button.active {
+    background: var(--ink);
+    color: var(--accent-yellow);
+  }
+  .path-panel {
+    display: none;
+    padding: 24px;
+    background: #fff6da;
+    border: 3px solid var(--ink);
+    border-top: none;
+    font-size: 20px;
+  }
+  .path-panel.active { display: block; }
+  .path-panel h5 {
+    font-family: 'Caveat', cursive;
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: var(--accent-pink);
+  }
+
+  /* Two-way table for categorical data */
+  .two-way {
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .two-way td, .two-way th {
+    border: 2px solid var(--chalk);
+    padding: 14px 18px;
+    text-align: center;
+    font-size: 18px;
+    color: var(--chalk);
+  }
+  .two-way th { background: rgba(255,217,61,0.15); color: var(--accent-yellow);}
+  .two-way .total { background: rgba(255,255,255,0.06); font-weight: 700;}
+
+  /* The opening provocation */
+  .provocation {
+    background: var(--accent-yellow);
+    color: var(--ink);
+    padding: 50px 5vw;
+    text-align: center;
+    border-bottom: 4px solid var(--ink);
+    position: relative;
+  }
+  .provocation .big {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-style: italic;
+    font-size: clamp(32px, 5vw, 56px);
+    line-height: 1.05;
+    max-width: 1000px;
+    margin: 0 auto;
+    letter-spacing: -0.02em;
+  }
+  .provocation .big em {
+    font-family: 'Caveat', cursive;
+    font-style: normal;
+    color: var(--accent-pink);
+    font-weight: 700;
+    font-size: 1.15em;
+  }
+  .provocation .small {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-top: 14px;
+  }
+
+  /* Drag indicator */
+  .scribble-arrow {
+    position: absolute;
+    font-family: 'Caveat', cursive;
+    color: var(--accent-pink);
+    font-size: 22px;
+    transform: rotate(-8deg);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Thinking Classroom · Grade 8 · Functions Unit</div>
+  <h1>
+    What <em>IS</em> a <span class="under">function</span>,<br>
+    really?
+  </h1>
+  <p class="tagline">A classroom where we don't mimic. We think. We notice. We wonder. We argue. We revise. Welcome to the real math.</p>
+  <div class="lesson-nav" aria-label="Jump to task">
+    <span class="label">TASKS →</span>
+    <button class="dot" data-jump="task-1">01</button>
+    <button class="dot" data-jump="task-2">02</button>
+    <button class="dot" data-jump="task-3">03</button>
+    <button class="dot" data-jump="task-4">04</button>
+    <button class="dot" data-jump="task-5">05</button>
+    <button class="dot" data-jump="task-6">06</button>
+    <button class="dot" data-jump="task-7">07</button>
+  </div>
+</header>
+
+<section class="provocation">
+  <p class="big">Before we begin — <em>forget</em> the textbook definition.<br>What do you think a function actually <em>does?</em></p>
+  <p class="small">Turn to your group · whiteboards up · no one writes until everyone has spoken</p>
+</section>
+
+<main>
+
+  <!-- =========================== TASK 1 =========================== -->
+  <div class="divider">
+    <div class="chapter">PART 1 · SEEING THE PATTERN</div>
+    <h3>The <span class="scribble">growing</span> shape</h3>
+  </div>
+
+  <article class="task" id="task-1" data-number="TASK 01" data-color="pink">
+    <div class="kicker">~ a low-floor, high-ceiling puzzle ~</div>
+    <h2>A shape is growing. Can you predict it?</h2>
+    <p>Look carefully. Don't rush. Talk to your group before you write anything.</p>
+
+    <div class="interactive">
+      <div class="caption">Here are the first 4 steps of a growing pattern:</div>
+      <div class="pattern-grid" id="patternGrid"></div>
+      <div class="caption" style="margin-top:20px;">Now use the slider to peek ahead — but FIRST, predict!</div>
+      <div class="controls" style="grid-template-columns:1fr; display:grid;">
+        <label>Step number: <span class="mono" id="patStepVal" style="color:var(--accent-yellow)">1</span></label>
+        <input type="range" id="patSlider" min="1" max="20" value="1">
+        <div class="readout">Predicted dots at this step: <span class="val" id="patCount">1</span></div>
+      </div>
+    </div>
+
+    <div class="prompt">
+      <span class="hand">Your group's mission:</span><br>
+      Without counting one-by-one, can you find a <b>rule</b> — a recipe — that tells you how many dots are in <em>any</em> step? Even step 100? Even step 1,000?
+    </div>
+
+    <div class="notice-wonder">
+      <div class="nw-box notice">
+        <h4>✦ We notice...</h4>
+        <textarea placeholder="What do you SEE happening?"></textarea>
+      </div>
+      <div class="nw-box wonder">
+        <h4>✦ We wonder...</h4>
+        <textarea placeholder="What QUESTIONS come up?"></textarea>
+      </div>
+    </div>
+
+    <div style="margin-top: 24px;">
+      <button class="btn ghost" onclick="toggleHint('hint1a')">I'm stuck — nudge 1</button>
+      <button class="btn ghost" onclick="toggleHint('hint1b')">Still stuck — nudge 2</button>
+      <button class="btn ghost" onclick="toggleHint('hint1c')">One more nudge</button>
+    </div>
+
+    <div class="hint" id="hint1a">
+      <strong>Nudge 1 · Look sideways</strong>
+      Instead of counting each step's total, look at the <em>change</em> between steps. How many dots are added each time? Is that number changing?
+    </div>
+    <div class="hint" id="hint1b">
+      <strong>Nudge 2 · Build a table</strong>
+      Try making a table: step number in one column, total dots in the other. What do you see happening to the second column?
+    </div>
+    <div class="hint" id="hint1c">
+      <strong>Nudge 3 · Two parts of a recipe</strong>
+      Every linear recipe has two ingredients: a <em>starting amount</em> and a <em>growth amount</em>. What's each one here? Can your rule tell a friend how to build step 50 without drawing it?
+    </div>
+
+    <details class="teacher">
+      <summary>▸ Teacher note (don't peek, students)</summary>
+      <p><b>Liljedahl move:</b> Give groups vertical whiteboards, assign randomly. Do NOT confirm any rule — instead ask "How do you know?" and "Will your rule work for step 200?" Celebrate different forms: <span class="mono">2n−1</span>, <span class="mono">1 + 2(n−1)</span>, <span class="mono">n + (n−1)</span>. All equivalent. This surfaces the ideas of rate of change and initial value through pattern reasoning.</p>
+    </details>
+  </article>
+
+  <!-- Mindset 1 -->
+  <div class="mindset">
+    <div class="tag">✦ Mindset moment</div>
+    <blockquote>When a problem feels hard, that's your brain building new pathways. Slow, careful thinking beats fast, shallow answers every time.</blockquote>
+    <cite>— a note from your classroom</cite>
+  </div>
+
+  <!-- =========================== TASK 2 =========================== -->
+  <article class="task" id="task-2" data-number="TASK 02" data-color="cyan">
+    <div class="kicker">~ from pattern to rule ~</div>
+    <h2>Maya's mystery bike rental</h2>
+
+    <p>Maya spots a bike-share stand at the park. The sign is <em>frustratingly</em> vague — it only shows three sample receipts:</p>
+
+    <div class="prompt">
+      <span class="hand">The clues:</span><br>
+      → A <b>20-minute</b> ride costs <b>$3.50</b><br>
+      → A <b>35-minute</b> ride costs <b>$5.00</b><br>
+      → A <b>50-minute</b> ride costs <b>$6.50</b>
+    </div>
+
+    <p>Your job: figure out the <b>hidden deal</b>. There's a fixed unlock fee + a per-minute rate. What are they? And how did you KNOW?</p>
+
+    <div class="notice-wonder">
+      <div class="nw-box notice">
+        <h4>✦ We notice...</h4>
+        <textarea placeholder="What do the numbers tell you?"></textarea>
+      </div>
+      <div class="nw-box wonder">
+        <h4>✦ What if...</h4>
+        <textarea placeholder="What if a session is 0 minutes?"></textarea>
+      </div>
+    </div>
+
+    <h4 style="font-family:'Caveat',cursive; font-size:32px; margin-top:32px; color:var(--accent-cyan);">Three groups solved this. Whose thinking do you find most elegant?</h4>
+
+    <div class="path-tabs">
+      <button class="active" data-path="p1">Noor's way</button>
+      <button data-path="p2">Daniel's way</button>
+      <button data-path="p3">Priya's way</button>
+    </div>
+    <div class="path-panel active" id="p1">
+      <h5>Noor looked for change</h5>
+      <p>"From 20 min to 35 min, that's 15 more minutes and $1.50 more. So the rate is <b>$0.10/min</b>. For 20 minutes of riding that's $2.00... so the unlock fee must be... hmm."</p>
+      <p><em>Can you finish Noor's thought?</em></p>
+    </div>
+    <div class="path-panel" id="p2">
+      <h5>Daniel drew it on a graph</h5>
+      <p>"I plotted the three points. They were in a straight line. I extended the line backward until it hit the y-axis — that's where x = 0 minutes. That's the unlock fee."</p>
+      <p><em>Why does the y-intercept give the fee? Convince your group.</em></p>
+    </div>
+    <div class="path-panel" id="p3">
+      <h5>Priya used algebra</h5>
+      <p>"Cost = fee + rate × minutes. I wrote 3.50 = fee + rate(20) and 5.00 = fee + rate(35). Two equations, two unknowns. Subtract!"</p>
+      <p><em>All three methods work. Which feels most natural to YOU — and why?</em></p>
+    </div>
+
+    <div class="interactive" style="margin-top:30px;">
+      <div class="caption">Build Maya's equation and see all three pieces come alive:</div>
+      <div class="slope-lab">
+        <svg viewBox="0 0 400 300" id="wifiGraph"></svg>
+        <div class="controls">
+          <div>
+            <label>Per-minute rate (m)</label>
+            <input type="range" id="wifiRate" min="0" max="0.25" step="0.01" value="0.05">
+            <div class="readout">rate = <span class="val" id="wifiRateVal">$0.05</span>/min</div>
+          </div>
+          <div>
+            <label>Unlock fee (b)</label>
+            <input type="range" id="wifiFee" min="0" max="5" step="0.10" value="0.00">
+            <div class="readout">fee = <span class="val" id="wifiFeeVal">$0.00</span></div>
+          </div>
+          <div class="equation-display">
+            <em>y</em> = <span class="m" id="wifiM">0.05</span><em>x</em> + <span class="b" id="wifiB">0.00</span>
+          </div>
+          <div class="readout" id="wifiMatch" style="font-family:'Caveat',cursive; font-size:22px;">Keep trying to match all 3 points...</div>
+        </div>
+      </div>
+    </div>
+
+    <details class="teacher">
+      <summary>▸ Teacher note</summary>
+      <p>This is defronting in action. Three student voices, three methods. Do NOT rank them. Ask: "How are these the same underneath?" Students discover that rate-of-change, y-intercept, and simultaneous equations are the same idea in different clothes. Target: y = 0.10x + 1.50 (rate = $0.10/min, unlock fee = $1.50).</p>
+    </details>
+  </article>
+
+  <!-- =========================== TASK 3 =========================== -->
+  <div class="divider">
+    <div class="chapter">PART 2 · ONE IDEA, MANY FACES</div>
+    <h3>A function in <span class="scribble">four outfits</span></h3>
+  </div>
+
+  <article class="task" id="task-3" data-number="TASK 03" data-color="orange">
+    <div class="kicker">~ the four representations ~</div>
+    <h2>Which belong together?</h2>
+
+    <p>Below are <b>12 cards</b>: three functions, each shown four different ways (a story, a table, a graph, an equation). Work with your group. Group them. No peeking — this is about arguing, not guessing.</p>
+
+    <div class="matcher" id="matcher">
+      <!-- cards injected by JS -->
+    </div>
+    <div class="match-feedback" id="matchFeedback"></div>
+    <div>
+      <button class="btn" onclick="checkMatches()">Check our groupings</button>
+      <button class="btn ghost" onclick="resetMatcher()">Reset</button>
+    </div>
+
+    <div class="prompt" style="margin-top:32px;">
+      <span class="hand">After you match them, argue:</span><br>
+      Which representation do you trust most? Which is easiest to <em>lie</em> with? Which would you use to convince a skeptic?
+    </div>
+
+    <details class="teacher">
+      <summary>▸ Teacher note</summary>
+      <p>This is the heart of functions — fluency across representations (verbal, table, graph, equation). Let students disagree loudly about groupings; the productive struggle IS the learning.</p>
+    </details>
+  </article>
+
+  <!-- =========================== TASK 4 =========================== -->
+  <article class="task" id="task-4" data-number="TASK 04" data-color="violet">
+    <div class="kicker">~ play, then explain ~</div>
+    <h2>The Slope &amp; Y-Intercept Playground</h2>
+
+    <p>Stop. Before you touch anything — <b>predict</b>. What will happen to the line when you make m bigger? What about b? Write your prediction in your group, THEN experiment.</p>
+
+    <div class="interactive">
+      <div class="caption">Drag the sliders. What changes? What stays the same?</div>
+      <div class="slope-lab">
+        <svg viewBox="0 0 400 400" id="slopeSvg"></svg>
+        <div class="controls">
+          <div>
+            <label>Slope (m) → the <em>steepness</em></label>
+            <input type="range" id="mSlider" min="-4" max="4" step="0.1" value="1">
+            <div class="readout">m = <span class="val" id="mVal">1.0</span></div>
+          </div>
+          <div>
+            <label>Y-intercept (b) → the <em>starting place</em></label>
+            <input type="range" id="bSlider" min="-8" max="8" step="0.5" value="0">
+            <div class="readout">b = <span class="val" id="bVal">0</span></div>
+          </div>
+          <div class="equation-display">
+            <em>y</em> = <span class="m" id="eqM">1</span><em>x</em> + <span class="b" id="eqB">0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prompt">
+      <span class="hand">Challenge your group:</span><br>
+      → Can you make a line that goes through (2, 5) AND (4, 11)?<br>
+      → Can you make a line with slope 0? What does it mean in real life?<br>
+      → What happens when m is negative? Tell a <em>story</em> that fits.
+    </div>
+
+    <div style="margin-top:20px;">
+      <button class="btn ghost" onclick="toggleHint('hint4a')">Nudge: slope 0</button>
+      <button class="btn ghost" onclick="toggleHint('hint4b')">Nudge: negative slope</button>
+    </div>
+    <div class="hint" id="hint4a">
+      <strong>Slope = 0 means...</strong>
+      The line is flat. In life: your phone charge when it's 100% (stays at 100%, doesn't change with time). The temperature in a thermostat-controlled room. Can you find three more?
+    </div>
+    <div class="hint" id="hint4b">
+      <strong>Negative slope means...</strong>
+      Something is DECREASING as time passes. Example: Adnan buys a laptop for $1,200 and it loses about $180 in value each year. That's m = −180. What other "going down" stories fit?
+    </div>
+  </article>
+
+  <!-- Mindset 2 -->
+  <div class="mindset" style="background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet));">
+    <div class="tag">✦ Mindset moment</div>
+    <blockquote>Not knowing something isn't the end of the story — it's the beginning of one. Add the word "yet" and watch it change.</blockquote>
+    <cite>— a note from your classroom</cite>
+  </div>
+
+  <!-- =========================== TASK 5 =========================== -->
+  <div class="divider">
+    <div class="chapter">PART 3 · WHEN THE WORLD GIVES YOU DATA</div>
+    <h3>Clouds of <span class="scribble">points</span>, lines of best fit</h3>
+  </div>
+
+  <article class="task" id="task-5" data-number="TASK 05" data-color="lime">
+    <div class="kicker">~ now it gets real ~</div>
+    <h2>Screens, sleep, and teenagers</h2>
+
+    <p>Here's data from a survey of 9 students in your school: how many hours they spend on social media each day, and how many hours they sleep each night.</p>
+
+    <div class="interactive">
+      <div class="caption">Look at this scatter plot. Really look. For 30 seconds. No talking.</div>
+      <div class="scatter-lab">
+        <svg viewBox="0 0 400 300" id="scatterSvg"></svg>
+        <div>
+          <table class="two-way">
+            <tr><th>Social media (hrs/day)</th><th>Sleep (hrs/night)</th></tr>
+            <tr><td>1</td><td>9.5</td></tr>
+            <tr><td>1.5</td><td>9</td></tr>
+            <tr><td>2</td><td>8.5</td></tr>
+            <tr><td>2.5</td><td>8</td></tr>
+            <tr><td>3</td><td>7.5</td></tr>
+            <tr><td>4</td><td>7</td></tr>
+            <tr><td>5</td><td>6.5</td></tr>
+            <tr><td>6</td><td>6</td></tr>
+            <tr><td>7</td><td>5.5</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="caption" style="margin-top:20px;">Now — does a straight line fit this data?</div>
+      <div class="fit-buttons">
+        <button onclick="voteFit(this, 'yes')">Yes, clearly linear</button>
+        <button onclick="voteFit(this, 'sorta')">Sorta — close but messy</button>
+        <button onclick="voteFit(this, 'no')">No, there's a curve</button>
+      </div>
+      <div id="fitVerdict" style="margin-top:16px; font-family:'Caveat',cursive; font-size:26px; color:var(--accent-yellow); min-height:32px;"></div>
+    </div>
+
+    <div class="prompt">
+      <span class="hand">Deeper question:</span><br>
+      If more social media hours are linked to less sleep, does that <em>prove</em> social media CAUSES less sleep? What else could explain it? <b>Correlation ≠ causation</b> — can your group come up with a counterexample?
+    </div>
+
+    <div class="notice-wonder">
+      <div class="nw-box notice">
+        <h4>✦ Patterns we see...</h4>
+        <textarea placeholder="positive? negative? clustered? outliers?"></textarea>
+      </div>
+      <div class="nw-box wonder">
+        <h4>✦ Lurking questions...</h4>
+        <textarea placeholder="What ELSE might explain this?"></textarea>
+      </div>
+    </div>
+
+    <details class="teacher">
+      <summary>▸ Teacher note</summary>
+      <p>The causation question is crucial — students at this age MUST learn that data patterns don't prove causes. Possible confounders: homework load, stress levels, a third variable like bedroom environment, or even the direction of causation (maybe students who can't sleep reach for their phones — the arrow could go either way).</p>
+    </details>
+  </article>
+
+  <!-- =========================== TASK 6 =========================== -->
+  <article class="task" id="task-6" data-number="TASK 06" data-color="pink">
+    <div class="kicker">~ linear? or something else? ~</div>
+    <h2>Not every relationship is a line</h2>
+
+    <p>Three scenarios. Which are linear? Which are not? Justify with your group — NO calculations allowed yet. Use reasoning first.</p>
+
+    <div class="matcher" style="grid-template-columns:repeat(3, 1fr);">
+      <div class="rep-card" style="cursor:default;">
+        <span class="rep-type">Scenario A</span>
+        <p style="font-family:'Fraunces',serif;">You save $20 every month in a jar. How much is in the jar after x months?</p>
+      </div>
+      <div class="rep-card" style="cursor:default;">
+        <span class="rep-type">Scenario B</span>
+        <p style="font-family:'Fraunces',serif;">The area of a square as you make its side longer. Side = x, Area = ?</p>
+      </div>
+      <div class="rep-card" style="cursor:default;">
+        <span class="rep-type">Scenario C</span>
+        <p style="font-family:'Fraunces',serif;">A tank drains 3 liters per minute from a 100L start. Water left after x min?</p>
+      </div>
+    </div>
+
+    <div class="prompt">
+      <span class="hand">Test your guesses:</span><br>
+      Fill in a table for each. Look at the <em>differences</em>. Linear relationships have CONSTANT differences. Non-linear ones don't. Can you prove which is which <em>without</em> graphing?
+    </div>
+
+    <div class="interactive">
+      <div class="caption">A simulator. Watch what "linear" vs "non-linear" looks like:</div>
+      <svg viewBox="0 0 400 300" id="linearVsNot" style="width:100%; height:auto; background: var(--board-light); border-radius:4px;"></svg>
+      <div style="display:flex; gap:12px; margin-top:14px; flex-wrap:wrap;">
+        <button class="btn" onclick="showFunc('linear')">Show: y = 20x (A)</button>
+        <button class="btn" onclick="showFunc('square')">Show: y = x² (B)</button>
+        <button class="btn" onclick="showFunc('draining')">Show: y = 100 − 3x (C)</button>
+      </div>
+    </div>
+
+    <details class="teacher">
+      <summary>▸ Teacher note</summary>
+      <p>Distinguishing linear from non-linear. Scenario B (y = x²) produces non-constant differences (1, 3, 5, 7, 9...) — students often assume "growing" means "linear." Huge insight!</p>
+    </details>
+  </article>
+
+  <!-- =========================== TASK 7 =========================== -->
+  <article class="task" id="task-7" data-number="TASK 07" data-color="violet">
+    <div class="kicker">~ putting it all together ~</div>
+    <h2>Your turn: create a story</h2>
+
+    <p>Your group's final challenge. Choose <b>one</b> of these:</p>
+
+    <div class="path-tabs">
+      <button class="active" data-path="q1">Challenge 1</button>
+      <button data-path="q2">Challenge 2</button>
+      <button data-path="q3">Challenge 3</button>
+    </div>
+    <div class="path-panel active" id="q1">
+      <h5>Invent a linear life</h5>
+      <p>Create a real-world story for the function <span class="mono" style="background:var(--ink); color:var(--accent-yellow); padding:4px 8px; border-radius:3px;">y = −5x + 50</span>. What does x mean? y? Why is the slope negative? What does 50 mean? Share it out loud so your classmates can critique it.</p>
+    </div>
+    <div class="path-panel" id="q2">
+      <h5>Design a deceptive graph</h5>
+      <p>Pick a linear function. Draw TWO graphs of the same data — one that makes the growth look dramatic, one that makes it look tiny. What did you change? (Hint: axes.) This is how news headlines lie!</p>
+    </div>
+    <div class="path-panel" id="q3">
+      <h5>Predict the future</h5>
+      <p>A plant grows 2 cm per week. At week 3 it was 11 cm. Write the function. Use it to predict its height at week 20. Then ask: is it REASONABLE to trust your prediction? Why or why not?</p>
+    </div>
+
+    <div class="prompt" style="margin-top:32px;">
+      <span class="hand">Before you leave this classroom:</span><br>
+      Write ONE sentence on your group's board that starts with: <em>"The most important thing I now understand about functions is..."</em> — and don't copy anyone else.
+    </div>
+
+    <div class="notice-wonder">
+      <div class="nw-box notice">
+        <h4>✦ Today I learned...</h4>
+        <textarea placeholder="In your own words. No textbook language."></textarea>
+      </div>
+      <div class="nw-box wonder">
+        <h4>✦ I still wonder...</h4>
+        <textarea placeholder="What's still bugging you?"></textarea>
+      </div>
+    </div>
+  </article>
+
+  <!-- Mindset 3 / Closing -->
+  <div class="mindset" style="background: linear-gradient(135deg, var(--accent-lime), var(--accent-cyan)); color:var(--ink);">
+    <div class="tag" style="color:var(--ink);">✦ Final mindset</div>
+    <blockquote>Here, the right answer isn't the point. Thinking is — and so is defending what you think.</blockquote>
+    <cite style="color:var(--board);">— our classroom motto</cite>
+  </div>
+
+</main>
+
+<footer>
+  <p class="hand-footer">Keep asking "why?" · Keep noticing · Keep wondering.</p>
+  <p>An original Grade 8 functions exploration · pedagogy inspired by Peter Liljedahl's <em>Building Thinking Classrooms</em> (2020) and Jo Boaler's <em>Mathematical Mindsets</em> (2016).</p>
+</footer>
+
+<script>
+  // =========================================================
+  //  NAVIGATION
+  // =========================================================
+  document.querySelectorAll('.dot').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = document.getElementById(btn.dataset.jump);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // =========================================================
+  //  HINTS (progressive reveal — BTC style)
+  // =========================================================
+  function toggleHint(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('show');
+  }
+
+  // =========================================================
+  //  TABS (multi-path solutions)
+  // =========================================================
+  document.querySelectorAll('.path-tabs').forEach(tabs => {
+    const buttons = tabs.querySelectorAll('button');
+    buttons.forEach(b => {
+      b.addEventListener('click', () => {
+        buttons.forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        const parent = tabs.parentElement;
+        parent.querySelectorAll('.path-panel').forEach(p => p.classList.remove('active'));
+        const panel = parent.querySelector('#' + b.dataset.path);
+        if (panel) panel.classList.add('active');
+      });
+    });
+  });
+
+  // =========================================================
+  //  TASK 1 · GROWING PATTERN (dots: step n has 2n-1 dots)
+  // =========================================================
+  const patGrid = document.getElementById('patternGrid');
+  for (let n = 1; n <= 4; n++) {
+    const count = 2 * n - 1;
+    let dots = '';
+    for (let i = 0; i < count; i++) dots += '<div class="dot-small"></div>';
+    patGrid.innerHTML += `
+      <div class="pattern-step">
+        <div class="step-num">Step ${n}</div>
+        <div class="dots">${dots}</div>
+        <div class="count">${count} dot${count > 1 ? 's' : ''}</div>
+      </div>`;
+  }
+  const patSlider = document.getElementById('patSlider');
+  const patStepVal = document.getElementById('patStepVal');
+  const patCount = document.getElementById('patCount');
+  patSlider.addEventListener('input', () => {
+    const n = parseInt(patSlider.value);
+    patStepVal.textContent = n;
+    patCount.textContent = 2 * n - 1;
+  });
+
+  // =========================================================
+  //  TASK 2 · BIKE RENTAL GRAPH (three points, find m and b)
+  // =========================================================
+  const wifiPoints = [[20, 3.50], [35, 5.00], [50, 6.50]];
+  function drawWifi() {
+    const svg = document.getElementById('wifiGraph');
+    const m = parseFloat(document.getElementById('wifiRate').value);
+    const b = parseFloat(document.getElementById('wifiFee').value);
+    document.getElementById('wifiRateVal').textContent = '$' + m.toFixed(2);
+    document.getElementById('wifiFeeVal').textContent = '$' + b.toFixed(2);
+    document.getElementById('wifiM').textContent = m.toFixed(2);
+    document.getElementById('wifiB').textContent = b.toFixed(2);
+
+    const W = 400, H = 300;
+    const pad = 40;
+    const xMax = 60, yMax = 8;
+    const sx = x => pad + (x / xMax) * (W - pad - 10);
+    const sy = y => H - pad - (y / yMax) * (H - pad - 10);
+
+    let html = '';
+    // grid
+    html += `<rect x="0" y="0" width="${W}" height="${H}" fill="#16382a"/>`;
+    for (let x = 0; x <= xMax; x += 10) {
+      html += `<line x1="${sx(x)}" y1="${pad-5}" x2="${sx(x)}" y2="${H-pad}" stroke="rgba(255,255,255,0.08)"/>`;
+      html += `<text x="${sx(x)}" y="${H-pad+18}" text-anchor="middle" fill="#f4f1e8" font-family="JetBrains Mono" font-size="10">${x}</text>`;
+    }
+    for (let y = 0; y <= yMax; y += 2) {
+      html += `<line x1="${pad}" y1="${sy(y)}" x2="${W-10}" y2="${sy(y)}" stroke="rgba(255,255,255,0.08)"/>`;
+      html += `<text x="${pad-6}" y="${sy(y)+3}" text-anchor="end" fill="#f4f1e8" font-family="JetBrains Mono" font-size="10">$${y.toFixed(0)}</text>`;
+    }
+    // axes
+    html += `<line x1="${pad}" y1="${H-pad}" x2="${W-10}" y2="${H-pad}" stroke="#f4f1e8" stroke-width="2"/>`;
+    html += `<line x1="${pad}" y1="${pad-5}" x2="${pad}" y2="${H-pad}" stroke="#f4f1e8" stroke-width="2"/>`;
+    // user line
+    const y0 = b;
+    const y1 = m * xMax + b;
+    html += `<line x1="${sx(0)}" y1="${sy(y0)}" x2="${sx(xMax)}" y2="${sy(y1)}" stroke="#ffd93d" stroke-width="3"/>`;
+    // data points
+    let allMatch = true;
+    wifiPoints.forEach(p => {
+      const [x, y] = p;
+      const predicted = m * x + b;
+      const match = Math.abs(predicted - y) < 0.08;
+      if (!match) allMatch = false;
+      html += `<circle cx="${sx(x)}" cy="${sy(y)}" r="7" fill="${match ? '#a8e83e' : '#ff5e87'}" stroke="#0d2818" stroke-width="2"/>`;
+      html += `<text x="${sx(x)+10}" y="${sy(y)-10}" fill="#f4f1e8" font-family="JetBrains Mono" font-size="11">(${x}, $${y.toFixed(2)})</text>`;
+    });
+    svg.innerHTML = html;
+
+    const msg = document.getElementById('wifiMatch');
+    if (allMatch) {
+      msg.textContent = '✦ All 3 points are ON your line — what do m and b tell you?';
+      msg.style.color = '#a8e83e';
+    } else {
+      msg.textContent = 'Keep trying to match all 3 red points...';
+      msg.style.color = '#f4f1e8';
+    }
+  }
+  document.getElementById('wifiRate').addEventListener('input', drawWifi);
+  document.getElementById('wifiFee').addEventListener('input', drawWifi);
+  drawWifi();
+
+  // =========================================================
+  //  TASK 3 · MULTI-REP MATCHER
+  // =========================================================
+  const FUNCTIONS = [
+    { id: 'A', slope: 2, b: 1 },
+    { id: 'B', slope: -1, b: 6 },
+    { id: 'C', slope: 0.5, b: 3 }
+  ];
+  const STORIES = {
+    A: "A streaming service costs $1 to sign up, plus $2 per month after that.",
+    B: "A candle is 6 cm tall. It melts down 1 cm per hour.",
+    C: "A taxi charges a $3 flat fare, plus $0.50 per kilometre."
+  };
+  function makeTableHTML(f) {
+    let rows = '';
+    for (let x = 0; x <= 4; x++) {
+      rows += `<tr><td>${x}</td><td>${(f.slope * x + f.b).toFixed(1)}</td></tr>`;
+    }
+    return `<table><tr><td><b>x</b></td><td><b>y</b></td></tr>${rows}</table>`;
+  }
+  function makeGraphSVG(f) {
+    const W = 140, H = 100, pad = 10;
+    const xMax = 5, yMin = -2, yMax = 8;
+    const sx = x => pad + (x / xMax) * (W - pad*2);
+    const sy = y => H - pad - ((y - yMin) / (yMax - yMin)) * (H - pad*2);
+    let html = `<rect x="0" y="0" width="${W}" height="${H}" fill="#fff9ee"/>`;
+    html += `<line x1="${pad}" y1="${sy(0)}" x2="${W-pad}" y2="${sy(0)}" stroke="#1a1a2e" stroke-width="1"/>`;
+    html += `<line x1="${sx(0)}" y1="${pad}" x2="${sx(0)}" y2="${H-pad}" stroke="#1a1a2e" stroke-width="1"/>`;
+    const y1 = f.slope * 0 + f.b, y2 = f.slope * xMax + f.b;
+    html += `<line x1="${sx(0)}" y1="${sy(y1)}" x2="${sx(xMax)}" y2="${sy(y2)}" stroke="#ff5e87" stroke-width="3"/>`;
+    return `<svg viewBox="0 0 ${W} ${H}">${html}</svg>`;
+  }
+  const cards = [];
+  FUNCTIONS.forEach(f => {
+    cards.push({ fid: f.id, type: 'STORY', content: STORIES[f.id] });
+    cards.push({ fid: f.id, type: 'TABLE', content: makeTableHTML(f) });
+    cards.push({ fid: f.id, type: 'GRAPH', content: makeGraphSVG(f) });
+    cards.push({ fid: f.id, type: 'EQUATION', content: `<div style="font-family:'Fraunces',serif; font-size:34px; font-style:italic; text-align:center; padding:16px;">y = ${f.slope}x + ${f.b}</div>` });
+  });
+  // shuffle
+  for (let i = cards.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [cards[i], cards[j]] = [cards[j], cards[i]];
+  }
+  const matcher = document.getElementById('matcher');
+  cards.forEach((c, i) => {
+    const div = document.createElement('div');
+    div.className = 'rep-card';
+    div.dataset.fid = c.fid;
+    div.dataset.idx = i;
+    div.innerHTML = `<span class="rep-type">${c.type}</span>${c.content}`;
+    div.addEventListener('click', () => {
+      if (div.classList.contains('matched')) return;
+      div.classList.toggle('selected');
+    });
+    matcher.appendChild(div);
+  });
+  function checkMatches() {
+    const selected = Array.from(document.querySelectorAll('.rep-card.selected'));
+    const fb = document.getElementById('matchFeedback');
+    if (selected.length !== 4) {
+      fb.style.color = '#ff5e87';
+      fb.textContent = 'Pick exactly 4 cards that you think go together.';
+      return;
+    }
+    const fids = selected.map(c => c.dataset.fid);
+    if (fids.every(f => f === fids[0])) {
+      selected.forEach(c => { c.classList.remove('selected'); c.classList.add('matched'); });
+      fb.style.color = '#a8e83e';
+      fb.textContent = '✦ Brilliant — all four show the same function in different outfits!';
+    } else {
+      fb.style.color = '#ff5e87';
+      fb.textContent = '✖ Not quite. Look again — the slope and y-intercept must match across all 4.';
+    }
+  }
+  function resetMatcher() {
+    document.querySelectorAll('.rep-card').forEach(c => c.classList.remove('selected', 'matched'));
+    document.getElementById('matchFeedback').textContent = '';
+  }
+
+  // =========================================================
+  //  TASK 4 · SLOPE SLIDER PLAYGROUND
+  // =========================================================
+  function drawSlope() {
+    const svg = document.getElementById('slopeSvg');
+    const m = parseFloat(document.getElementById('mSlider').value);
+    const b = parseFloat(document.getElementById('bSlider').value);
+    document.getElementById('mVal').textContent = m.toFixed(1);
+    document.getElementById('bVal').textContent = b;
+    document.getElementById('eqM').textContent = m;
+    document.getElementById('eqB').textContent = b;
+
+    const W = 400, H = 400;
+    const cx = W/2, cy = H/2;
+    const unit = 20;
+    let html = `<rect x="0" y="0" width="${W}" height="${H}" fill="#16382a"/>`;
+    // grid
+    for (let x = -10; x <= 10; x++) {
+      html += `<line x1="${cx + x*unit}" y1="0" x2="${cx + x*unit}" y2="${H}" stroke="rgba(255,255,255,0.06)" stroke-width="${x===0?2:1}"/>`;
+      html += `<line x1="0" y1="${cy + x*unit}" x2="${W}" y2="${cy + x*unit}" stroke="rgba(255,255,255,0.06)" stroke-width="${x===0?2:1}"/>`;
+    }
+    // labels
+    for (let x = -10; x <= 10; x += 2) {
+      if (x === 0) continue;
+      html += `<text x="${cx + x*unit}" y="${cy + 14}" fill="#f4f1e8" font-family="JetBrains Mono" font-size="10" text-anchor="middle">${x}</text>`;
+      html += `<text x="${cx - 6}" y="${cy - x*unit + 3}" fill="#f4f1e8" font-family="JetBrains Mono" font-size="10" text-anchor="end">${x}</text>`;
+    }
+    // axes
+    html += `<line x1="0" y1="${cy}" x2="${W}" y2="${cy}" stroke="#f4f1e8" stroke-width="2"/>`;
+    html += `<line x1="${cx}" y1="0" x2="${cx}" y2="${H}" stroke="#f4f1e8" stroke-width="2"/>`;
+    // line
+    const x1 = -10, x2 = 10;
+    const y1 = m * x1 + b, y2 = m * x2 + b;
+    const px1 = cx + x1 * unit, py1 = cy - y1 * unit;
+    const px2 = cx + x2 * unit, py2 = cy - y2 * unit;
+    html += `<line x1="${px1}" y1="${py1}" x2="${px2}" y2="${py2}" stroke="#ffd93d" stroke-width="4"/>`;
+    // y-intercept dot
+    html += `<circle cx="${cx}" cy="${cy - b*unit}" r="7" fill="#ff5e87" stroke="#0d2818" stroke-width="2"/>`;
+    html += `<text x="${cx + 12}" y="${cy - b*unit - 8}" fill="#ff5e87" font-family="Caveat" font-size="18">y-intercept!</text>`;
+    svg.innerHTML = html;
+  }
+  document.getElementById('mSlider').addEventListener('input', drawSlope);
+  document.getElementById('bSlider').addEventListener('input', drawSlope);
+  drawSlope();
+
+  // =========================================================
+  //  TASK 5 · SCATTER PLOT (social media vs sleep)
+  // =========================================================
+  function drawScatter() {
+    const svg = document.getElementById('scatterSvg');
+    const data = [
+      [1, 9.5], [1.5, 9], [2, 8.5], [2.5, 8], [3, 7.5],
+      [4, 7], [5, 6.5], [6, 6], [7, 5.5]
+    ];
+    const W = 400, H = 300, pad = 48;
+    const xMin = 0, xMax = 8, yMin = 4, yMax = 10;
+    const sx = x => pad + ((x - xMin) / (xMax - xMin)) * (W - pad - 20);
+    const sy = y => H - pad - ((y - yMin) / (yMax - yMin)) * (H - pad - 20);
+    let html = `<rect x="0" y="0" width="${W}" height="${H}" fill="#16382a"/>`;
+    // grid + labels
+    for (let x = xMin; x <= xMax; x += 2) {
+      html += `<line x1="${sx(x)}" y1="${pad-10}" x2="${sx(x)}" y2="${H-pad}" stroke="rgba(255,255,255,0.07)"/>`;
+      html += `<text x="${sx(x)}" y="${H-pad+18}" fill="#f4f1e8" font-family="JetBrains Mono" font-size="10" text-anchor="middle">${x}</text>`;
+    }
+    for (let y = yMin; y <= yMax; y += 1) {
+      html += `<line x1="${pad}" y1="${sy(y)}" x2="${W-20}" y2="${sy(y)}" stroke="rgba(255,255,255,0.07)"/>`;
+      html += `<text x="${pad-6}" y="${sy(y)+3}" fill="#f4f1e8" font-family="JetBrains Mono" font-size="10" text-anchor="end">${y}</text>`;
+    }
+    html += `<line x1="${pad}" y1="${H-pad}" x2="${W-20}" y2="${H-pad}" stroke="#f4f1e8" stroke-width="2"/>`;
+    html += `<line x1="${pad}" y1="${pad-10}" x2="${pad}" y2="${H-pad}" stroke="#f4f1e8" stroke-width="2"/>`;
+    html += `<text x="${W/2}" y="${H-10}" fill="#ffd93d" font-family="Caveat" font-size="18" text-anchor="middle">Social media (hrs/day)</text>`;
+    html += `<text x="12" y="${H/2}" fill="#ffd93d" font-family="Caveat" font-size="18" text-anchor="middle" transform="rotate(-90 12 ${H/2})">Sleep (hrs)</text>`;
+    // points
+    data.forEach(p => {
+      html += `<circle cx="${sx(p[0])}" cy="${sy(p[1])}" r="6" fill="#ff5e87" stroke="#0d2818" stroke-width="2"/>`;
+    });
+    svg.innerHTML = html;
+  }
+  drawScatter();
+
+  function voteFit(btn, choice) {
+    document.querySelectorAll('.fit-buttons button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const v = document.getElementById('fitVerdict');
+    const responses = {
+      yes: "Interesting. What's your evidence? Can you draw a line through the middle that most points cluster near?",
+      sorta: "Nice — 'sorta' is a mathematically honest answer. What makes a fit 'good enough'?",
+      no: "A bold claim! What kind of curve would fit better? Can you defend that?"
+    };
+    v.textContent = '→ ' + responses[choice];
+  }
+
+  // =========================================================
+  //  TASK 6 · LINEAR VS NON-LINEAR
+  // =========================================================
+  function drawFunction(type) {
+    const svg = document.getElementById('linearVsNot');
+    const W = 400, H = 300, pad = 40;
+    const xMax = 10, yMax = 120;
+    const sx = x => pad + (x / xMax) * (W - pad - 10);
+    const sy = y => H - pad - (y / yMax) * (H - pad - 10);
+    let html = `<rect x="0" y="0" width="${W}" height="${H}" fill="#16382a"/>`;
+    for (let x = 0; x <= xMax; x += 2) {
+      html += `<line x1="${sx(x)}" y1="${pad-5}" x2="${sx(x)}" y2="${H-pad}" stroke="rgba(255,255,255,0.06)"/>`;
+      html += `<text x="${sx(x)}" y="${H-pad+16}" fill="#f4f1e8" font-family="JetBrains Mono" font-size="9" text-anchor="middle">${x}</text>`;
+    }
+    for (let y = 0; y <= yMax; y += 20) {
+      html += `<line x1="${pad}" y1="${sy(y)}" x2="${W-10}" y2="${sy(y)}" stroke="rgba(255,255,255,0.06)"/>`;
+      html += `<text x="${pad-6}" y="${sy(y)+3}" fill="#f4f1e8" font-family="JetBrains Mono" font-size="9" text-anchor="end">${y}</text>`;
+    }
+    html += `<line x1="${pad}" y1="${H-pad}" x2="${W-10}" y2="${H-pad}" stroke="#f4f1e8" stroke-width="2"/>`;
+    html += `<line x1="${pad}" y1="${pad-5}" x2="${pad}" y2="${H-pad}" stroke="#f4f1e8" stroke-width="2"/>`;
+    let pts = '', label = '';
+    if (type === 'linear') {
+      for (let x = 0; x <= xMax; x += 0.5) {
+        const y = 20 * x; // impossible to exceed yMax, clamp
+        if (y > yMax) break;
+        pts += `${sx(x)},${sy(y)} `;
+      }
+      label = 'y = 20x · LINEAR → equal jumps';
+    } else if (type === 'square') {
+      for (let x = 0; x <= xMax; x += 0.2) {
+        const y = x * x;
+        if (y > yMax) break;
+        pts += `${sx(x)},${sy(y)} `;
+      }
+      label = 'y = x² · NON-LINEAR → jumps get bigger';
+    } else if (type === 'draining') {
+      for (let x = 0; x <= xMax; x += 0.5) {
+        const y = 100 - 3 * x;
+        if (y < 0) break;
+        pts += `${sx(x)},${sy(y)} `;
+      }
+      label = 'y = 100 − 3x · LINEAR (but going DOWN)';
+    }
+    html += `<polyline points="${pts}" fill="none" stroke="#ffd93d" stroke-width="3"/>`;
+    html += `<text x="${W/2}" y="24" fill="#ffd93d" font-family="Caveat" font-size="22" text-anchor="middle">${label}</text>`;
+    svg.innerHTML = html;
+  }
+  function showFunc(type) { drawFunction(type); }
+  drawFunction('linear');
+</script>
+
+</body>
+</html>
