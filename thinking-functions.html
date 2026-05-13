@@ -178,6 +178,91 @@
   .task[data-color="orange"] { box-shadow: 8px 8px 0 var(--accent-orange); }
   .task[data-color="violet"] { box-shadow: 8px 8px 0 var(--accent-violet); }
   .task[data-color="lime"] { box-shadow: 8px 8px 0 var(--accent-lime); }
+  .task[data-color="yellow"] { box-shadow: 8px 8px 0 var(--accent-yellow); }
+
+  /* Vertical line test lab */
+  .vlt-lab {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 16px 0;
+  }
+  @media (max-width: 720px) {
+    .vlt-lab { grid-template-columns: 1fr; }
+  }
+  .vlt-cell {
+    background: var(--board-light);
+    border: 2px solid rgba(255,255,255,0.12);
+    border-radius: 4px;
+    padding: 12px;
+    text-align: center;
+  }
+  .vlt-label {
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+    color: var(--accent-yellow);
+    margin-bottom: 6px;
+  }
+  .vlt-svg { width: 100%; height: auto; background: var(--board); border-radius: 3px; }
+  .vlt-result {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    margin-top: 8px;
+    color: var(--chalk);
+  }
+  .vlt-result.fail { color: var(--accent-pink); }
+  .vlt-result.pass { color: var(--accent-lime); }
+
+  /* Function sorter cards */
+  .func-card {
+    background: var(--chalk);
+    border: 3px solid var(--ink);
+    padding: 18px;
+    border-radius: 3px;
+    cursor: pointer;
+    min-height: 200px;
+    transition: all 0.2s;
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .func-card:hover { transform: translateY(-3px); }
+  .func-card .scenario {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    line-height: 1.4;
+    margin-bottom: 14px;
+    flex: 1;
+  }
+  .func-card .choice-row {
+    display: flex;
+    gap: 8px;
+  }
+  .func-card .choice-btn {
+    flex: 1;
+    background: transparent;
+    border: 2px solid var(--ink);
+    padding: 10px 8px;
+    font-family: 'Caveat', cursive;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 3px;
+    color: var(--ink);
+    transition: all 0.15s;
+  }
+  .func-card .choice-btn:hover { background: var(--ink); color: var(--chalk); }
+  .func-card .choice-btn.selected { background: var(--accent-cyan); border-color: var(--accent-cyan); color: var(--ink); }
+  .func-card.correct { background: var(--accent-lime); }
+  .func-card.incorrect { background: #ffd0d8; }
+  .func-card .verdict {
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+    margin-top: 8px;
+    font-weight: 700;
+  }
+  .func-card.correct .verdict { color: var(--board); }
+  .func-card.incorrect .verdict { color: #b41e3e; }
 
   .task h2 {
     font-family: 'Fraunces', serif;
@@ -708,288 +793,9 @@
     transform: rotate(-8deg);
   }
 </style>
-  <style>
-  /* =====================================================
-     Mrs. Ali's Classroom — Universal Mobile Fixes
-     ===================================================== */
-
-  /* Prevent horizontal page scrolling at all costs */
-  html, body {
-    max-width: 100%;
-    overflow-x: hidden;
-  }
-
-  /* Make ALL images, SVGs, canvases, iframes fit their container */
-  img, svg, canvas, video, iframe {
-    max-width: 100%;
-    height: auto;
-  }
-
-  /* Canvases inside interactive tools sometimes have fixed pixel width.
-     Force them to respond to their parent. */
-  canvas {
-    max-width: 100% !important;
-    height: auto;
-  }
-
-  /* Wrap any <table> in an auto-scroll container.
-     The table itself scrolls inside that box, not the whole page.
-     This fixes "table overlaps other content when scrolling". */
-  @media (max-width: 768px) {
-    table {
-      display: block;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      white-space: nowrap;
-      max-width: 100%;
-    }
-    table thead, table tbody, table tr {
-      display: table;
-      width: 100%;
-      table-layout: fixed;
-    }
-    /* Let inputs inside tables breathe a little */
-    table input[type="text"],
-    table input[type="number"] {
-      width: 100% !important;
-      min-width: 60px;
-      box-sizing: border-box;
-    }
-  }
-
-  /* Enlarge tap targets on phones */
-  @media (max-width: 768px) {
-    button,
-    input[type="button"],
-    input[type="submit"],
-    input[type="reset"],
-    .btn, .hbtn, .pw-btn, .go-btn {
-      min-height: 44px;
-      padding: 10px 16px !important;
-      font-size: 15px !important;
-    }
-
-    /* Text inputs should be big enough to tap */
-    input[type="text"],
-    input[type="number"],
-    input[type="email"],
-    input[type="password"],
-    select,
-    textarea {
-      min-height: 40px;
-      font-size: 16px !important; /* prevents iOS from zooming on focus */
-      padding: 8px 10px;
-    }
-  }
-
-  /* Sliders: make them fill available width */
-  @media (max-width: 768px) {
-    input[type="range"] {
-      width: 100% !important;
-      max-width: 100%;
-      min-height: 44px; /* bigger thumb area to tap */
-    }
-  }
-
-  /* When there are multiple buttons in a row, stack them on narrow screens */
-  @media (max-width: 520px) {
-    .actions,
-    .controls,
-    .button-row,
-    .btn-row,
-    .hero-cta {
-      flex-direction: column;
-      align-items: stretch;
-    }
-    .actions button,
-    .controls button,
-    .button-row button,
-    .btn-row button,
-    .hero-cta a,
-    .hero-cta button {
-      width: 100%;
-      margin-left: 0 !important;
-    }
-  }
-
-  /* Prevent oversized fixed-width sections from overflowing */
-  @media (max-width: 768px) {
-    .wrap,
-    .container,
-    .content-wrap,
-    main,
-    section {
-      max-width: 100%;
-      padding-left: 14px;
-      padding-right: 14px;
-      box-sizing: border-box;
-    }
-    /* Don't double-pad nested elements */
-    main .wrap, section .container {
-      padding-left: 0;
-      padding-right: 0;
-    }
-  }
-
-  /* Make large headings scale down on small screens */
-  @media (max-width: 520px) {
-    h1 { font-size: 1.5rem !important; line-height: 1.15; }
-    h2 { font-size: 1.25rem !important; line-height: 1.2; }
-    h3 { font-size: 1.1rem !important; }
-    header h1 { font-size: 1.2rem !important; }
-  }
-
-  /* Grid layouts: collapse multi-column grids to single column */
-  @media (max-width: 768px) {
-    .row,
-    .grid,
-    .two-col,
-    .three-col,
-    .top-layout,
-    .charts-row,
-    .games-grid,
-    .paths-grid,
-    .tools-grid,
-    .trust-grid,
-    .try-grid,
-    .audience-tabs {
-      grid-template-columns: 1fr !important;
-      display: grid;
-      gap: 14px;
-    }
-  }
-
-  /* Fix common "card" patterns that have fixed widths */
-  @media (max-width: 768px) {
-    .card,
-    .kpi,
-    .chart-card,
-    .tool-card,
-    .game-card,
-    .try-card {
-      max-width: 100%;
-      box-sizing: border-box;
-    }
-  }
-
-  /* Better scroll behavior on touch */
-  @media (max-width: 768px) {
-    body {
-      -webkit-overflow-scrolling: touch;
-    }
-  }
-
-  /* Any element that explicitly sets a fixed width beyond the screen —
-     gently cap it */
-  @media (max-width: 500px) {
-    [style*="width:"],
-    [style*="width ="] {
-      max-width: 100%;
-    }
-  }
-</style>
 </head>
 <body>
-<nav class="mac-topnav" role="navigation" aria-label="Main navigation">
-  <a href="https://raaziaali.github.io/" class="mac-home-btn" aria-label="Back to Mrs. Ali's Classroom home">
-    <svg class="mac-home-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M19 12H5M12 19l-7-7 7-7"/>
-    </svg>
-    <span class="mac-home-text">Mrs. Ali's Classroom</span>
-  </a>
-</nav>
 
-<style>
-  .mac-topnav {
-    position: sticky;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 99999;
-    padding: 10px 16px;
-    background: rgba(10, 10, 31, 0.94);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid rgba(196, 181, 253, 0.2);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "DM Sans", sans-serif;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
-    box-sizing: border-box;
-    margin: 0;
-  }
-  .mac-home-btn {
-    display: inline-flex !important;
-    align-items: center;
-    gap: 8px;
-    color: #F8F9FF !important;
-    text-decoration: none !important;
-    font-size: 14px;
-    font-weight: 600;
-    padding: 6px 12px;
-    border-radius: 8px;
-    transition: background 0.2s, transform 0.2s, color 0.2s;
-    -webkit-tap-highlight-color: transparent;
-    border: none;
-    background: transparent;
-  }
-  .mac-home-btn:hover,
-  .mac-home-btn:focus {
-    background: rgba(0, 229, 255, 0.12) !important;
-    color: #00E5FF !important;
-    outline: none;
-  }
-  .mac-home-btn:active {
-    transform: translateX(-2px);
-  }
-  .mac-home-icon {
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-  }
-  .mac-home-text { white-space: nowrap; }
-  @media (max-width: 500px) {
-    .mac-topnav { padding: 8px 12px; }
-    .mac-home-text { font-size: 13px; }
-  }
-  .mac-topnav, .mac-topnav * { box-sizing: border-box; }
-  [data-mac-legacy-hidden="true"] { display: none !important; }
-</style>
-
-<script>
-  (function() {
-    function hideLegacyBackLinks() {
-      var patterns = [
-        /^\s*(\u2190|<-|\u2039|\u00ab|\u2039\u2039|\u2190+|<+)\s*back/i,
-        /^\s*back\s+to\b/i,
-        /^\s*back\s*(home|$)/i,
-        /^\s*home\s*$/i,
-        /portal\s*$/i,
-        /back\s+to\s+portal/i,
-        /back\s+to\s+home/i,
-        /return\s+to/i,
-        /all\s+tools/i
-      ];
-      var links = document.querySelectorAll('a, button');
-      for (var i = 0; i < links.length; i++) {
-        var el = links[i];
-        if (el.classList.contains('mac-home-btn')) continue;
-        if (el.closest && el.closest('.mac-topnav')) continue;
-        var text = (el.textContent || '').trim();
-        if (!text) continue;
-        for (var j = 0; j < patterns.length; j++) {
-          if (patterns[j].test(text)) {
-            el.setAttribute('data-mac-legacy-hidden', 'true');
-            break;
-          }
-        }
-      }
-    }
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', hideLegacyBackLinks);
-    } else {
-      hideLegacyBackLinks();
-    }
-  })();
-</script>
 <header>
   <div class="eyebrow">Thinking Classroom · Grade 8 · Functions Unit</div>
   <h1>
@@ -1006,6 +812,7 @@
     <button class="dot" data-jump="task-5">05</button>
     <button class="dot" data-jump="task-6">06</button>
     <button class="dot" data-jump="task-7">07</button>
+    <button class="dot" data-jump="task-8">08</button>
   </div>
 </header>
 
@@ -1086,8 +893,139 @@
     <cite>— a note from your classroom</cite>
   </div>
 
-  <!-- =========================== TASK 2 =========================== -->
-  <article class="task" id="task-2" data-number="TASK 02" data-color="cyan">
+  <!-- =========================== TASK 2 (NEW: WHAT IS A FUNCTION?) =========================== -->
+  <div class="divider">
+    <div class="chapter">PART 1.5 · WHAT COUNTS AS A FUNCTION?</div>
+    <h3>Inputs, outputs, <span class="scribble">and one big rule</span></h3>
+  </div>
+
+  <article class="task" id="task-2" data-number="TASK 02" data-color="yellow">
+    <div class="kicker">~ definition through discovery ~</div>
+    <h2>Is it actually a function?</h2>
+
+    <p>Mathematicians have a strict rule about what counts as a function. But before we tell you the rule — let's see if you can figure it out by spotting the pattern.</p>
+
+    <div class="prompt">
+      <span class="hand">The big definition:</span><br>
+      A <b>function</b> is a relation in which every <em>input</em> has <b>exactly one</b> output.<br>
+      <span style="font-size:18px; opacity:0.85;">→ The set of allowed inputs is called the <b>domain</b>.<br>→ The set of outputs that come out is called the <b>range</b>.</span>
+    </div>
+
+    <p>That sounds simple. But "exactly one output" is sneaky. Let's test it.</p>
+
+    <h4 style="font-family:'Caveat',cursive; font-size:32px; margin-top:28px; color:var(--accent-yellow);">Round 1 · Which of these are functions?</h4>
+    <p>For each scenario below, your group must decide: <b>Function or not a function?</b> Be ready to defend your answer.</p>
+
+    <div class="matcher" id="functionSorter" style="grid-template-columns: repeat(3, 1fr);"></div>
+
+    <div style="margin-top:16px;">
+      <button class="btn" onclick="revealFunctionAnswers()">Reveal the truth</button>
+      <button class="btn ghost" onclick="resetFunctionSorter()">Reset</button>
+    </div>
+    <div id="funcSorterFeedback" style="font-family:'Caveat',cursive; font-size:24px; margin-top:14px; min-height:32px; color:var(--accent-lime);"></div>
+
+    <div class="prompt" style="margin-top:32px;">
+      <span class="hand">Now argue:</span><br>
+      What do all the <em>functions</em> have in common?<br>
+      What do all the <em>non-functions</em> have in common?<br>
+      Can your group write the rule in your own words — before checking the definition above?
+    </div>
+
+    <h4 style="font-family:'Caveat',cursive; font-size:32px; margin-top:36px; color:var(--accent-cyan);">Round 2 · The vertical line test</h4>
+    <p>Here's a clever trick for graphs. Drag the red vertical line across each graph below. Count how many times it crosses the curve.</p>
+
+    <div class="interactive">
+      <div class="caption">Drag the slider to move the red line. Watch what happens.</div>
+      <div class="vlt-lab">
+        <div class="vlt-cell">
+          <div class="vlt-label">Graph A</div>
+          <svg viewBox="0 0 240 240" id="vltA" class="vlt-svg"></svg>
+          <div class="vlt-result" id="vltAResult">Crosses: 0 times</div>
+        </div>
+        <div class="vlt-cell">
+          <div class="vlt-label">Graph B</div>
+          <svg viewBox="0 0 240 240" id="vltB" class="vlt-svg"></svg>
+          <div class="vlt-result" id="vltBResult">Crosses: 0 times</div>
+        </div>
+        <div class="vlt-cell">
+          <div class="vlt-label">Graph C</div>
+          <svg viewBox="0 0 240 240" id="vltC" class="vlt-svg"></svg>
+          <div class="vlt-result" id="vltCResult">Crosses: 0 times</div>
+        </div>
+      </div>
+      <div class="controls" style="margin-top:18px;">
+        <label>Vertical line position: <span class="mono" id="vltXVal" style="color:var(--accent-yellow);">0</span></label>
+        <input type="range" id="vltSlider" min="-10" max="10" step="0.2" value="0">
+      </div>
+    </div>
+
+    <div class="prompt">
+      <span class="hand">Group challenge — figure it out:</span><br>
+      → On which graph does the red line ever cross the curve <em>more than once</em>?<br>
+      → What does that mean about that input having one output, or many?<br>
+      → Why does this <em>prove</em> something isn't a function?
+    </div>
+
+    <h4 style="font-family:'Caveat',cursive; font-size:32px; margin-top:36px; color:var(--accent-pink);">Round 3 · Find the domain &amp; range</h4>
+
+    <p>Here's a linear function with a clear start and end. Drag the sliders to set what YOU think the domain and range are.</p>
+
+    <div class="interactive">
+      <div class="caption">A function lives between its endpoints. What x-values does it accept? What y-values does it produce?</div>
+      <div class="slope-lab">
+        <svg viewBox="0 0 400 360" id="domainRangeSvg"></svg>
+        <div class="controls">
+          <div>
+            <label>Domain (x-values): from <span class="mono" id="domLowVal" style="color:var(--accent-yellow);">−4</span> to <span class="mono" id="domHighVal" style="color:var(--accent-yellow);">4</span></label>
+            <input type="range" id="domLow" min="-6" max="0" step="1" value="-4">
+            <input type="range" id="domHigh" min="0" max="6" step="1" value="4" style="margin-top:8px;">
+          </div>
+          <div>
+            <label>Range (y-values): from <span class="mono" id="rngLowVal" style="color:var(--accent-cyan);">−5</span> to <span class="mono" id="rngHighVal" style="color:var(--accent-cyan);">5</span></label>
+            <input type="range" id="rngLow" min="-8" max="0" step="1" value="-5">
+            <input type="range" id="rngHigh" min="0" max="10" step="1" value="5" style="margin-top:8px;">
+          </div>
+          <div class="readout" id="domainRangeMsg" style="font-family:'Caveat',cursive; font-size:22px;">Your sliders show your guess.<br>What do you think is right?</div>
+          <button class="btn" onclick="checkDomainRange()">Check my answer</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="notice-wonder">
+      <div class="nw-box notice">
+        <h4>✦ What we now understand...</h4>
+        <textarea placeholder="In your own words: when is a relation a function?"></textarea>
+      </div>
+      <div class="nw-box wonder">
+        <h4>✦ Still confusing...</h4>
+        <textarea placeholder="What part feels tricky?"></textarea>
+      </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+      <button class="btn ghost" onclick="toggleHint('hint2a')">Nudge: domain &amp; range in real life?</button>
+      <button class="btn ghost" onclick="toggleHint('hint2b')">Nudge: why "exactly one" matters</button>
+    </div>
+
+    <div class="hint" id="hint2a">
+      <strong>Real-life domain &amp; range</strong>
+      Think of a vending machine. The buttons you can press are the <em>domain</em> — the allowed inputs. The snacks that can come out are the <em>range</em>. If pressing B4 sometimes gives chips and sometimes gives gum, is that machine a function? What if it always gives the same thing?
+    </div>
+    <div class="hint" id="hint2b">
+      <strong>Why "exactly one" matters</strong>
+      Imagine a school where you type a student's ID number and it tells you their name. That's a function — one ID, one student. But if you type the name and it gives back the ID, is THAT still a function? What if two students have the same name?
+    </div>
+
+    <details class="teacher">
+      <summary>▸ Teacher note</summary>
+      <p>This task introduces the formal definition of a function (every input has exactly one output) without front-loading it as a rule to memorize. The vertical line test is presented as a discovery — students see it as a visual consequence of the definition, not a separate trick.</p>
+      <p><b>Domain &amp; Range:</b> Students often confuse these. The vending machine and student-ID metaphors in the hints are anchors worth returning to.</p>
+      <p><b>The non-functions in Round 1:</b> the family-with-multiple-pets and the circle (sideways relation) both violate the rule. The phone-keypad example IS a function (each key maps to exactly one letter set), even though it feels strange.</p>
+    </details>
+  </article>
+
+  <!-- =========================== TASK 3 (was Task 2) =========================== -->
+  <article class="task" id="task-3" data-number="TASK 03" data-color="cyan">
     <div class="kicker">~ from pattern to rule ~</div>
     <h2>Maya's mystery bike rental</h2>
 
@@ -1165,13 +1103,13 @@
     </details>
   </article>
 
-  <!-- =========================== TASK 3 =========================== -->
+  <!-- =========================== TASK 4 =========================== -->
   <div class="divider">
     <div class="chapter">PART 2 · ONE IDEA, MANY FACES</div>
     <h3>A function in <span class="scribble">four outfits</span></h3>
   </div>
 
-  <article class="task" id="task-3" data-number="TASK 03" data-color="orange">
+  <article class="task" id="task-4" data-number="TASK 04" data-color="orange">
     <div class="kicker">~ the four representations ~</div>
     <h2>Which belong together?</h2>
 
@@ -1197,8 +1135,8 @@
     </details>
   </article>
 
-  <!-- =========================== TASK 4 =========================== -->
-  <article class="task" id="task-4" data-number="TASK 04" data-color="violet">
+  <!-- =========================== TASK 5 =========================== -->
+  <article class="task" id="task-5" data-number="TASK 05" data-color="violet">
     <div class="kicker">~ play, then explain ~</div>
     <h2>The Slope &amp; Y-Intercept Playground</h2>
 
@@ -1254,13 +1192,13 @@
     <cite>— a note from your classroom</cite>
   </div>
 
-  <!-- =========================== TASK 5 =========================== -->
+  <!-- =========================== TASK 6 =========================== -->
   <div class="divider">
     <div class="chapter">PART 3 · WHEN THE WORLD GIVES YOU DATA</div>
     <h3>Clouds of <span class="scribble">points</span>, lines of best fit</h3>
   </div>
 
-  <article class="task" id="task-5" data-number="TASK 05" data-color="lime">
+  <article class="task" id="task-6" data-number="TASK 06" data-color="lime">
     <div class="kicker">~ now it gets real ~</div>
     <h2>Screens, sleep, and teenagers</h2>
 
@@ -1316,8 +1254,8 @@
     </details>
   </article>
 
-  <!-- =========================== TASK 6 =========================== -->
-  <article class="task" id="task-6" data-number="TASK 06" data-color="pink">
+  <!-- =========================== TASK 7 =========================== -->
+  <article class="task" id="task-7" data-number="TASK 07" data-color="pink">
     <div class="kicker">~ linear? or something else? ~</div>
     <h2>Not every relationship is a line</h2>
 
@@ -1359,8 +1297,8 @@
     </details>
   </article>
 
-  <!-- =========================== TASK 7 =========================== -->
-  <article class="task" id="task-7" data-number="TASK 07" data-color="violet">
+  <!-- =========================== TASK 8 =========================== -->
+  <article class="task" id="task-8" data-number="TASK 08" data-color="violet">
     <div class="kicker">~ putting it all together ~</div>
     <h2>Your turn: create a story</h2>
 
@@ -1476,7 +1414,304 @@
   });
 
   // =========================================================
-  //  TASK 2 · BIKE RENTAL GRAPH (three points, find m and b)
+  //  TASK 2 · WHAT IS A FUNCTION? (sorter + vertical line test + domain/range)
+  // =========================================================
+
+  // --- Function sorter cards ---
+  const FUNC_SCENARIOS = [
+    {
+      id: 'fs1',
+      scenario: "Each student in class is paired with their unique student ID number. Input: a student. Output: their ID.",
+      isFunc: true,
+      explain: "✓ Function. Each student has exactly one ID."
+    },
+    {
+      id: 'fs2',
+      scenario: "A vending machine. Pressing button B4 sometimes gives a chocolate bar, sometimes a bag of chips, depending on the day.",
+      isFunc: false,
+      explain: "✗ Not a function. Same input (B4) gives different outputs."
+    },
+    {
+      id: 'fs3',
+      scenario: "A weather app. Input: today's date. Output: today's high temperature.",
+      isFunc: true,
+      explain: "✓ Function. Each date has exactly one recorded high."
+    },
+    {
+      id: 'fs4',
+      scenario: "A family tree. Input: a child. Output: their biological mother.",
+      isFunc: true,
+      explain: "✓ Function. Each child has exactly one biological mother."
+    },
+    {
+      id: 'fs5',
+      scenario: "A family tree (reversed). Input: a mother. Output: her child.",
+      isFunc: false,
+      explain: "✗ Not a function. One mother can have multiple children — one input, many outputs."
+    },
+    {
+      id: 'fs6',
+      scenario: "A square's side length and its area. Input: side length. Output: area.",
+      isFunc: true,
+      explain: "✓ Function. Each side length gives exactly one area (side²)."
+    }
+  ];
+
+  const funcSorter = document.getElementById('functionSorter');
+  const funcChoices = {};
+  FUNC_SCENARIOS.forEach(s => {
+    const card = document.createElement('div');
+    card.className = 'func-card';
+    card.id = 'card-' + s.id;
+    card.innerHTML = `
+      <div class="scenario">${s.scenario}</div>
+      <div class="choice-row">
+        <button class="choice-btn" data-choice="yes" data-id="${s.id}">Function</button>
+        <button class="choice-btn" data-choice="no" data-id="${s.id}">Not a function</button>
+      </div>
+      <div class="verdict"></div>
+    `;
+    funcSorter.appendChild(card);
+  });
+  funcSorter.querySelectorAll('.choice-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.id;
+      funcChoices[id] = btn.dataset.choice;
+      const card = document.getElementById('card-' + id);
+      card.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+    });
+  });
+
+  function revealFunctionAnswers() {
+    let correctCount = 0;
+    let answered = 0;
+    FUNC_SCENARIOS.forEach(s => {
+      const card = document.getElementById('card-' + s.id);
+      const verdict = card.querySelector('.verdict');
+      const choice = funcChoices[s.id];
+      if (!choice) {
+        verdict.textContent = '(no answer yet)';
+        verdict.style.color = '#888';
+        card.classList.remove('correct', 'incorrect');
+        return;
+      }
+      answered++;
+      const userSaysFunc = (choice === 'yes');
+      const isRight = (userSaysFunc === s.isFunc);
+      verdict.textContent = s.explain;
+      card.classList.remove('correct', 'incorrect');
+      card.classList.add(isRight ? 'correct' : 'incorrect');
+      if (isRight) correctCount++;
+    });
+    const fb = document.getElementById('funcSorterFeedback');
+    if (answered === 0) {
+      fb.textContent = '→ Pick Function or Not a function for each card first.';
+      fb.style.color = 'var(--accent-pink)';
+    } else if (correctCount === FUNC_SCENARIOS.length) {
+      fb.textContent = '✦ All correct! Now defend your reasoning out loud.';
+      fb.style.color = 'var(--accent-lime)';
+    } else {
+      fb.textContent = `→ ${correctCount} of ${answered} right. Discuss the surprises with your group.`;
+      fb.style.color = 'var(--accent-yellow)';
+    }
+  }
+  function resetFunctionSorter() {
+    Object.keys(funcChoices).forEach(k => delete funcChoices[k]);
+    FUNC_SCENARIOS.forEach(s => {
+      const card = document.getElementById('card-' + s.id);
+      card.classList.remove('correct', 'incorrect');
+      card.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('selected'));
+      card.querySelector('.verdict').textContent = '';
+    });
+    document.getElementById('funcSorterFeedback').textContent = '';
+  }
+
+  // --- Vertical line test ---
+  // Three graphs: A) y = x (line, function), B) circle x²+y² = 16 (not function), C) parabola y = x²/3 (function)
+  function drawVLT(svgId, type, xLine) {
+    const svg = document.getElementById(svgId);
+    const W = 240, H = 240, cx = W/2, cy = H/2;
+    const unit = 12; // pixels per unit
+    let html = `<rect x="0" y="0" width="${W}" height="${H}" fill="#0d2818"/>`;
+    // grid
+    for (let i = -10; i <= 10; i += 2) {
+      html += `<line x1="${cx + i*unit}" y1="0" x2="${cx + i*unit}" y2="${H}" stroke="rgba(255,255,255,0.06)"/>`;
+      html += `<line x1="0" y1="${cy + i*unit}" x2="${W}" y2="${cy + i*unit}" stroke="rgba(255,255,255,0.06)"/>`;
+    }
+    // axes
+    html += `<line x1="0" y1="${cy}" x2="${W}" y2="${cy}" stroke="#f4f1e8" stroke-width="1.5"/>`;
+    html += `<line x1="${cx}" y1="0" x2="${cx}" y2="${H}" stroke="#f4f1e8" stroke-width="1.5"/>`;
+    // curve
+    let pts = '';
+    let crossings = 0;
+    if (type === 'line') {
+      // y = 0.7x
+      for (let x = -10; x <= 10; x += 0.1) {
+        const y = 0.7 * x;
+        if (Math.abs(y) > 10) continue;
+        pts += `${cx + x*unit},${cy - y*unit} `;
+      }
+      html += `<polyline points="${pts}" fill="none" stroke="#ffd93d" stroke-width="3"/>`;
+      // count crossings at xLine: a line crosses any vertical line exactly once
+      if (xLine >= -10 && xLine <= 10) crossings = 1;
+    } else if (type === 'circle') {
+      // x² + y² = 36
+      const r = 6;
+      html += `<circle cx="${cx}" cy="${cy}" r="${r*unit}" fill="none" stroke="#ffd93d" stroke-width="3"/>`;
+      // count crossings at xLine
+      if (Math.abs(xLine) < r) crossings = 2;
+      else if (Math.abs(xLine) === r || Math.abs(Math.abs(xLine) - r) < 0.15) crossings = 1;
+      else crossings = 0;
+    } else if (type === 'parabola') {
+      // y = x²/3
+      for (let x = -7; x <= 7; x += 0.1) {
+        const y = (x * x) / 3;
+        if (y > 10) continue;
+        pts += `${cx + x*unit},${cy - y*unit} `;
+      }
+      html += `<polyline points="${pts}" fill="none" stroke="#ffd93d" stroke-width="3"/>`;
+      if (xLine >= -7 && xLine <= 7) crossings = 1;
+    }
+    // vertical test line
+    const lineX = cx + xLine * unit;
+    if (lineX >= 0 && lineX <= W) {
+      html += `<line x1="${lineX}" y1="0" x2="${lineX}" y2="${H}" stroke="#ff5e87" stroke-width="2.5" stroke-dasharray="4,3"/>`;
+      // mark crossings with dots
+      if (type === 'line' && crossings === 1) {
+        const y = 0.7 * xLine;
+        html += `<circle cx="${lineX}" cy="${cy - y*unit}" r="6" fill="#ff5e87" stroke="#0d2818" stroke-width="2"/>`;
+      } else if (type === 'circle' && crossings >= 1) {
+        const r2 = 36 - xLine*xLine;
+        if (r2 >= 0) {
+          const y = Math.sqrt(r2);
+          html += `<circle cx="${lineX}" cy="${cy - y*unit}" r="6" fill="#ff5e87" stroke="#0d2818" stroke-width="2"/>`;
+          if (crossings === 2) {
+            html += `<circle cx="${lineX}" cy="${cy + y*unit}" r="6" fill="#ff5e87" stroke="#0d2818" stroke-width="2"/>`;
+          }
+        }
+      } else if (type === 'parabola' && crossings === 1) {
+        const y = (xLine * xLine) / 3;
+        if (y <= 10) html += `<circle cx="${lineX}" cy="${cy - y*unit}" r="6" fill="#ff5e87" stroke="#0d2818" stroke-width="2"/>`;
+      }
+    }
+    svg.innerHTML = html;
+
+    // update result
+    const resultId = svgId + 'Result';
+    const resultEl = document.getElementById(resultId);
+    if (resultEl) {
+      resultEl.textContent = `Crosses: ${crossings} time${crossings === 1 ? '' : 's'}` + (crossings > 1 ? ' → NOT a function!' : (crossings === 1 ? ' → looks like a function' : ''));
+      resultEl.classList.remove('fail', 'pass');
+      if (crossings > 1) resultEl.classList.add('fail');
+      else if (crossings === 1) resultEl.classList.add('pass');
+    }
+  }
+
+  function updateVLT() {
+    const x = parseFloat(document.getElementById('vltSlider').value);
+    document.getElementById('vltXVal').textContent = x.toFixed(1);
+    drawVLT('vltA', 'line', x);
+    drawVLT('vltB', 'circle', x);
+    drawVLT('vltC', 'parabola', x);
+  }
+  document.getElementById('vltSlider').addEventListener('input', updateVLT);
+  updateVLT();
+
+  // --- Domain & Range checker ---
+  // Function shown: y = 2x + 1 for x in [-2, 3], so range is [-3, 7]
+  function drawDomainRange() {
+    const svg = document.getElementById('domainRangeSvg');
+    const W = 400, H = 360;
+    // Recenter origin so we can see both negative and positive y-values
+    const cx = W/2, cy = H/2 + 60;  // origin shifted toward bottom (range is asymmetric: [-3, 7])
+    const unit = 28;  // sized so endpoints (-2,-3) and (3,7) stay on screen with margin
+    const domLow = parseInt(document.getElementById('domLow').value);
+    const domHigh = parseInt(document.getElementById('domHigh').value);
+    const rngLow = parseInt(document.getElementById('rngLow').value);
+    const rngHigh = parseInt(document.getElementById('rngHigh').value);
+    document.getElementById('domLowVal').textContent = domLow;
+    document.getElementById('domHighVal').textContent = domHigh;
+    document.getElementById('rngLowVal').textContent = rngLow;
+    document.getElementById('rngHighVal').textContent = rngHigh;
+
+    let html = `<rect x="0" y="0" width="${W}" height="${H}" fill="#16382a"/>`;
+    // grid (every unit)
+    for (let i = -6; i <= 6; i++) {
+      html += `<line x1="${cx + i*unit}" y1="0" x2="${cx + i*unit}" y2="${H}" stroke="rgba(255,255,255,0.05)"/>`;
+    }
+    for (let i = -5; i <= 8; i++) {
+      html += `<line x1="0" y1="${cy - i*unit}" x2="${W}" y2="${cy - i*unit}" stroke="rgba(255,255,255,0.05)"/>`;
+    }
+    // axes
+    html += `<line x1="0" y1="${cy}" x2="${W}" y2="${cy}" stroke="#f4f1e8" stroke-width="2"/>`;
+    html += `<line x1="${cx}" y1="0" x2="${cx}" y2="${H}" stroke="#f4f1e8" stroke-width="2"/>`;
+    // x-axis labels
+    for (let i = -5; i <= 5; i++) {
+      if (i === 0) continue;
+      const xpx = cx + i*unit;
+      if (xpx < 8 || xpx > W - 8) continue;
+      html += `<text x="${xpx}" y="${cy + 14}" fill="#f4f1e8" font-family="JetBrains Mono" font-size="11" text-anchor="middle">${i}</text>`;
+    }
+    // y-axis labels
+    for (let i = -3; i <= 7; i++) {
+      if (i === 0) continue;
+      const ypx = cy - i*unit;
+      if (ypx < 12 || ypx > H - 6) continue;
+      html += `<text x="${cx - 6}" y="${ypx + 4}" fill="#f4f1e8" font-family="JetBrains Mono" font-size="11" text-anchor="end">${i}</text>`;
+    }
+    // Domain shading on x-axis (user guess)
+    html += `<rect x="${cx + domLow*unit}" y="${cy - 5}" width="${(domHigh - domLow)*unit}" height="10" fill="#ffd93d" opacity="0.55"/>`;
+    // Range shading on y-axis (user guess)
+    html += `<rect x="${cx - 5}" y="${cy - rngHigh*unit}" width="10" height="${(rngHigh - rngLow)*unit}" fill="#4ad3e0" opacity="0.55"/>`;
+    // The actual function: y = 2x + 1 for x in [-2, 3]
+    const fnXmin = -2, fnXmax = 3;
+    const fnYmin = 2*fnXmin + 1; // -3
+    const fnYmax = 2*fnXmax + 1; // 7
+    html += `<line x1="${cx + fnXmin*unit}" y1="${cy - fnYmin*unit}" x2="${cx + fnXmax*unit}" y2="${cy - fnYmax*unit}" stroke="#ff5e87" stroke-width="3.5"/>`;
+    // Endpoint dots
+    html += `<circle cx="${cx + fnXmin*unit}" cy="${cy - fnYmin*unit}" r="7" fill="#ff5e87" stroke="#0d2818" stroke-width="2"/>`;
+    html += `<circle cx="${cx + fnXmax*unit}" cy="${cy - fnYmax*unit}" r="7" fill="#ff5e87" stroke="#0d2818" stroke-width="2"/>`;
+    // Endpoint coordinate hints
+    html += `<text x="${cx + fnXmin*unit - 10}" y="${cy - fnYmin*unit + 22}" fill="#ff5e87" font-family="Caveat" font-size="18" text-anchor="end">(−2, −3)</text>`;
+    html += `<text x="${cx + fnXmax*unit + 10}" y="${cy - fnYmax*unit - 6}" fill="#ff5e87" font-family="Caveat" font-size="18">(3, 7)</text>`;
+    // labels
+    html += `<text x="${W - 10}" y="22" fill="#ff5e87" font-family="Caveat" font-size="22" text-anchor="end">y = 2x + 1</text>`;
+    html += `<text x="${cx + fnXmax*unit + 30}" y="${cy + 22}" fill="#ffd93d" font-family="Caveat" font-size="16">domain →</text>`;
+    html += `<text x="10" y="20" fill="#4ad3e0" font-family="Caveat" font-size="16">↑ range</text>`;
+    svg.innerHTML = html;
+  }
+  ['domLow', 'domHigh', 'rngLow', 'rngHigh'].forEach(id => {
+    document.getElementById(id).addEventListener('input', drawDomainRange);
+  });
+  drawDomainRange();
+
+  function checkDomainRange() {
+    const domLow = parseInt(document.getElementById('domLow').value);
+    const domHigh = parseInt(document.getElementById('domHigh').value);
+    const rngLow = parseInt(document.getElementById('rngLow').value);
+    const rngHigh = parseInt(document.getElementById('rngHigh').value);
+    const msg = document.getElementById('domainRangeMsg');
+    // Correct: domain = [-2, 3], range = [-3, 7]
+    const domRight = (domLow === -2 && domHigh === 3);
+    const rngRight = (rngLow === -3 && rngHigh === 7);
+    if (domRight && rngRight) {
+      msg.innerHTML = '✦ Yes! Domain is [−2, 3] and range is [−3, 7].<br>How did you figure it out?';
+      msg.style.color = 'var(--accent-lime)';
+    } else if (domRight && !rngRight) {
+      msg.innerHTML = 'Domain is right! But look at the lowest and highest y-values the line reaches between its endpoints.';
+      msg.style.color = 'var(--accent-yellow)';
+    } else if (!domRight && rngRight) {
+      msg.innerHTML = 'Range is right! But look at where the red dots sit on the x-axis.';
+      msg.style.color = 'var(--accent-yellow)';
+    } else {
+      msg.innerHTML = 'Not quite. Look at the two red endpoint dots. Their x-values bound the domain. Their y-values bound the range.';
+      msg.style.color = 'var(--accent-pink)';
+    }
+  }
+
+  // =========================================================
+  //  TASK 3 · BIKE RENTAL GRAPH (three points, find m and b)
   // =========================================================
   const wifiPoints = [[20, 3.50], [35, 5.00], [50, 6.50]];
   function drawWifi() {
@@ -1538,7 +1773,7 @@
   drawWifi();
 
   // =========================================================
-  //  TASK 3 · MULTI-REP MATCHER
+  //  TASK 4 · MULTI-REP MATCHER
   // =========================================================
   const FUNCTIONS = [
     { id: 'A', slope: 2, b: 1 },
@@ -1618,7 +1853,7 @@
   }
 
   // =========================================================
-  //  TASK 4 · SLOPE SLIDER PLAYGROUND
+  //  TASK 5 · SLOPE SLIDER PLAYGROUND
   // =========================================================
   function drawSlope() {
     const svg = document.getElementById('slopeSvg');
@@ -1663,7 +1898,7 @@
   drawSlope();
 
   // =========================================================
-  //  TASK 5 · SCATTER PLOT (social media vs sleep)
+  //  TASK 6 · SCATTER PLOT (social media vs sleep)
   // =========================================================
   function drawScatter() {
     const svg = document.getElementById('scatterSvg');
@@ -1710,7 +1945,7 @@
   }
 
   // =========================================================
-  //  TASK 6 · LINEAR VS NON-LINEAR
+  //  TASK 7 · LINEAR VS NON-LINEAR
   // =========================================================
   function drawFunction(type) {
     const svg = document.getElementById('linearVsNot');
