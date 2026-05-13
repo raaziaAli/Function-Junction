@@ -213,6 +213,25 @@
   .vlt-result.fail { color: var(--accent-pink); }
   .vlt-result.pass { color: var(--accent-lime); }
 
+  /* Number-line slider (negative to positive, endpoint labels at each side) */
+  .number-line-slider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .number-line-slider input[type="range"] {
+    flex: 1;
+    margin: 0;
+  }
+  .number-line-slider .nls-end {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: rgba(244, 241, 232, 0.5);
+    min-width: 24px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
   /* Function sorter cards */
   .func-card {
     background: var(--chalk);
@@ -977,13 +996,29 @@
         <div class="controls">
           <div>
             <label>Domain (x-values): from <span class="mono" id="domLowVal" style="color:var(--accent-yellow);">−4</span> to <span class="mono" id="domHighVal" style="color:var(--accent-yellow);">4</span></label>
-            <input type="range" id="domLow" min="-6" max="0" step="1" value="-4">
-            <input type="range" id="domHigh" min="0" max="6" step="1" value="4" style="margin-top:8px;">
+            <div class="number-line-slider">
+              <span class="nls-end">−6</span>
+              <input type="range" id="domLow" min="-6" max="6" step="1" value="-4">
+              <span class="nls-end">6</span>
+            </div>
+            <div class="number-line-slider" style="margin-top:6px;">
+              <span class="nls-end">−6</span>
+              <input type="range" id="domHigh" min="-6" max="6" step="1" value="4">
+              <span class="nls-end">6</span>
+            </div>
           </div>
           <div>
             <label>Range (y-values): from <span class="mono" id="rngLowVal" style="color:var(--accent-cyan);">−5</span> to <span class="mono" id="rngHighVal" style="color:var(--accent-cyan);">5</span></label>
-            <input type="range" id="rngLow" min="-8" max="0" step="1" value="-5">
-            <input type="range" id="rngHigh" min="0" max="10" step="1" value="5" style="margin-top:8px;">
+            <div class="number-line-slider">
+              <span class="nls-end">−8</span>
+              <input type="range" id="rngLow" min="-8" max="10" step="1" value="-5">
+              <span class="nls-end">10</span>
+            </div>
+            <div class="number-line-slider" style="margin-top:6px;">
+              <span class="nls-end">−8</span>
+              <input type="range" id="rngHigh" min="-8" max="10" step="1" value="5">
+              <span class="nls-end">10</span>
+            </div>
           </div>
           <div class="readout" id="domainRangeMsg" style="font-family:'Caveat',cursive; font-size:22px;">Your sliders show your guess.<br>What do you think is right?</div>
           <button class="btn" onclick="checkDomainRange()">Check my answer</button>
@@ -1626,10 +1661,23 @@
     // Recenter origin so we can see both negative and positive y-values
     const cx = W/2, cy = H/2 + 60;  // origin shifted toward bottom (range is asymmetric: [-3, 7])
     const unit = 28;  // sized so endpoints (-2,-3) and (3,7) stay on screen with margin
-    const domLow = parseInt(document.getElementById('domLow').value);
-    const domHigh = parseInt(document.getElementById('domHigh').value);
-    const rngLow = parseInt(document.getElementById('rngLow').value);
-    const rngHigh = parseInt(document.getElementById('rngHigh').value);
+
+    // Constraint: a "low" slider cannot exceed its "high" partner, and vice versa.
+    // We clamp whichever slider the user just dragged so it cannot cross its partner.
+    // The active slider is recorded by an 'input' listener (see below).
+    const dL = document.getElementById('domLow');
+    const dH = document.getElementById('domHigh');
+    const rL = document.getElementById('rngLow');
+    const rH = document.getElementById('rngHigh');
+    if (window._activeDR === 'domLow' && parseInt(dL.value) > parseInt(dH.value)) dL.value = dH.value;
+    if (window._activeDR === 'domHigh' && parseInt(dH.value) < parseInt(dL.value)) dH.value = dL.value;
+    if (window._activeDR === 'rngLow' && parseInt(rL.value) > parseInt(rH.value)) rL.value = rH.value;
+    if (window._activeDR === 'rngHigh' && parseInt(rH.value) < parseInt(rL.value)) rH.value = rL.value;
+
+    const domLow = parseInt(dL.value);
+    const domHigh = parseInt(dH.value);
+    const rngLow = parseInt(rL.value);
+    const rngHigh = parseInt(rH.value);
     document.getElementById('domLowVal').textContent = domLow;
     document.getElementById('domHighVal').textContent = domHigh;
     document.getElementById('rngLowVal').textContent = rngLow;
@@ -1682,7 +1730,10 @@
     svg.innerHTML = html;
   }
   ['domLow', 'domHigh', 'rngLow', 'rngHigh'].forEach(id => {
-    document.getElementById(id).addEventListener('input', drawDomainRange);
+    document.getElementById(id).addEventListener('input', () => {
+      window._activeDR = id;
+      drawDomainRange();
+    });
   });
   drawDomainRange();
 
