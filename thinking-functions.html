@@ -576,26 +576,6 @@
     margin-top: 10px;
   }
 
-  /* Scatter plot tool */
-  .scatter-lab { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start;}
-  @media (max-width: 900px) { .scatter-lab { grid-template-columns: 1fr; } }
-
-  /* Does Line Fit? */
-  .fit-buttons { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px;}
-  .fit-buttons button {
-    flex: 1;
-    background: var(--board-light);
-    color: var(--chalk);
-    border: 2px solid rgba(255,255,255,0.2);
-    padding: 14px;
-    font-family: 'Caveat', cursive;
-    font-size: 22px;
-    cursor: pointer;
-    border-radius: 3px;
-    min-width: 140px;
-  }
-  .fit-buttons button.active { background: var(--accent-pink); border-color: var(--accent-pink); color: var(--paper);}
-
   /* Mindset Moments */
   .mindset {
     background: linear-gradient(135deg, var(--accent-pink), var(--accent-orange));
@@ -751,22 +731,6 @@
     color: var(--accent-pink);
   }
 
-  /* Two-way table for categorical data */
-  .two-way {
-    border-collapse: collapse;
-    margin: 16px 0;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .two-way td, .two-way th {
-    border: 2px solid var(--chalk);
-    padding: 14px 18px;
-    text-align: center;
-    font-size: 18px;
-    color: var(--chalk);
-  }
-  .two-way th { background: rgba(255,217,61,0.15); color: var(--accent-yellow);}
-  .two-way .total { background: rgba(255,255,255,0.06); font-weight: 700;}
-
   /* The opening provocation */
   .provocation {
     background: var(--accent-yellow);
@@ -829,7 +793,6 @@
     <button class="dot" data-jump="task-5">05</button>
     <button class="dot" data-jump="task-6">06</button>
     <button class="dot" data-jump="task-7">07</button>
-    <button class="dot" data-jump="task-8">08</button>
   </div>
 </header>
 
@@ -1211,70 +1174,8 @@
     <cite>— a note from your classroom</cite>
   </div>
 
-  <!-- =========================== TASK 6 =========================== -->
-  <div class="divider">
-    <div class="chapter">PART 3 · WHEN THE WORLD GIVES YOU DATA</div>
-    <h3>Clouds of <span class="scribble">points</span>, lines of best fit</h3>
-  </div>
-
-  <article class="task" id="task-6" data-number="TASK 06" data-color="lime">
-    <div class="kicker">~ now it gets real ~</div>
-    <h2>Screens, sleep, and teenagers</h2>
-
-    <p>Here's data from a survey of 9 students in your school: how many hours they spend on social media each day, and how many hours they sleep each night.</p>
-
-    <div class="interactive">
-      <div class="caption">Look at this scatter plot. Really look. For 30 seconds. No talking.</div>
-      <div class="scatter-lab">
-        <svg viewBox="0 0 400 300" id="scatterSvg"></svg>
-        <div>
-          <table class="two-way">
-            <tr><th>Social media (hrs/day)</th><th>Sleep (hrs/night)</th></tr>
-            <tr><td>1</td><td>9.5</td></tr>
-            <tr><td>1.5</td><td>9</td></tr>
-            <tr><td>2</td><td>8.5</td></tr>
-            <tr><td>2.5</td><td>8</td></tr>
-            <tr><td>3</td><td>7.5</td></tr>
-            <tr><td>4</td><td>7</td></tr>
-            <tr><td>5</td><td>6.5</td></tr>
-            <tr><td>6</td><td>6</td></tr>
-            <tr><td>7</td><td>5.5</td></tr>
-          </table>
-        </div>
-      </div>
-      <div class="caption" style="margin-top:20px;">Now — does a straight line fit this data?</div>
-      <div class="fit-buttons">
-        <button onclick="voteFit(this, 'yes')">Yes, clearly linear</button>
-        <button onclick="voteFit(this, 'sorta')">Sorta — close but messy</button>
-        <button onclick="voteFit(this, 'no')">No, there's a curve</button>
-      </div>
-      <div id="fitVerdict" style="margin-top:16px; font-family:'Caveat',cursive; font-size:26px; color:var(--accent-yellow); min-height:32px;"></div>
-    </div>
-
-    <div class="prompt">
-      <span class="hand">Deeper question:</span><br>
-      If more social media hours are linked to less sleep, does that <em>prove</em> social media CAUSES less sleep? What else could explain it? <b>Correlation ≠ causation</b> — can your group come up with a counterexample?
-    </div>
-
-    <div class="notice-wonder">
-      <div class="nw-box notice">
-        <h4>✦ Patterns we see...</h4>
-        <textarea placeholder="positive? negative? clustered? outliers?"></textarea>
-      </div>
-      <div class="nw-box wonder">
-        <h4>✦ Lurking questions...</h4>
-        <textarea placeholder="What ELSE might explain this?"></textarea>
-      </div>
-    </div>
-
-    <details class="teacher">
-      <summary>▸ Teacher note</summary>
-      <p>The causation question is crucial — students at this age MUST learn that data patterns don't prove causes. Possible confounders: homework load, stress levels, a third variable like bedroom environment, or even the direction of causation (maybe students who can't sleep reach for their phones — the arrow could go either way).</p>
-    </details>
-  </article>
-
-  <!-- =========================== TASK 7 =========================== -->
-  <article class="task" id="task-7" data-number="TASK 07" data-color="pink">
+  <!-- =========================== TASK 6 (was Task 7) =========================== -->
+  <article class="task" id="task-6" data-number="TASK 06" data-color="pink">
     <div class="kicker">~ linear? or something else? ~</div>
     <h2>Not every relationship is a line</h2>
 
@@ -1316,8 +1217,8 @@
     </details>
   </article>
 
-  <!-- =========================== TASK 8 =========================== -->
-  <article class="task" id="task-8" data-number="TASK 08" data-color="violet">
+  <!-- =========================== TASK 7 (was Task 8) =========================== -->
+  <article class="task" id="task-7" data-number="TASK 07" data-color="violet">
     <div class="kicker">~ putting it all together ~</div>
     <h2>Your turn: create a story</h2>
 
@@ -2022,54 +1923,7 @@
   drawSlope();
 
   // =========================================================
-  //  TASK 6 · SCATTER PLOT (social media vs sleep)
-  // =========================================================
-  function drawScatter() {
-    const svg = document.getElementById('scatterSvg');
-    const data = [
-      [1, 9.5], [1.5, 9], [2, 8.5], [2.5, 8], [3, 7.5],
-      [4, 7], [5, 6.5], [6, 6], [7, 5.5]
-    ];
-    const W = 400, H = 300, pad = 48;
-    const xMin = 0, xMax = 8, yMin = 4, yMax = 10;
-    const sx = x => pad + ((x - xMin) / (xMax - xMin)) * (W - pad - 20);
-    const sy = y => H - pad - ((y - yMin) / (yMax - yMin)) * (H - pad - 20);
-    let html = `<rect x="0" y="0" width="${W}" height="${H}" fill="#16382a"/>`;
-    // grid + labels
-    for (let x = xMin; x <= xMax; x += 2) {
-      html += `<line x1="${sx(x)}" y1="${pad-10}" x2="${sx(x)}" y2="${H-pad}" stroke="rgba(255,255,255,0.07)"/>`;
-      html += `<text x="${sx(x)}" y="${H-pad+18}" fill="#f4f1e8" font-family="JetBrains Mono" font-size="10" text-anchor="middle">${x}</text>`;
-    }
-    for (let y = yMin; y <= yMax; y += 1) {
-      html += `<line x1="${pad}" y1="${sy(y)}" x2="${W-20}" y2="${sy(y)}" stroke="rgba(255,255,255,0.07)"/>`;
-      html += `<text x="${pad-6}" y="${sy(y)+3}" fill="#f4f1e8" font-family="JetBrains Mono" font-size="10" text-anchor="end">${y}</text>`;
-    }
-    html += `<line x1="${pad}" y1="${H-pad}" x2="${W-20}" y2="${H-pad}" stroke="#f4f1e8" stroke-width="2"/>`;
-    html += `<line x1="${pad}" y1="${pad-10}" x2="${pad}" y2="${H-pad}" stroke="#f4f1e8" stroke-width="2"/>`;
-    html += `<text x="${W/2}" y="${H-10}" fill="#ffd93d" font-family="Caveat" font-size="18" text-anchor="middle">Social media (hrs/day)</text>`;
-    html += `<text x="12" y="${H/2}" fill="#ffd93d" font-family="Caveat" font-size="18" text-anchor="middle" transform="rotate(-90 12 ${H/2})">Sleep (hrs)</text>`;
-    // points
-    data.forEach(p => {
-      html += `<circle cx="${sx(p[0])}" cy="${sy(p[1])}" r="6" fill="#ff5e87" stroke="#0d2818" stroke-width="2"/>`;
-    });
-    svg.innerHTML = html;
-  }
-  drawScatter();
-
-  function voteFit(btn, choice) {
-    document.querySelectorAll('.fit-buttons button').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const v = document.getElementById('fitVerdict');
-    const responses = {
-      yes: "Interesting. What's your evidence? Can you draw a line through the middle that most points cluster near?",
-      sorta: "Nice — 'sorta' is a mathematically honest answer. What makes a fit 'good enough'?",
-      no: "A bold claim! What kind of curve would fit better? Can you defend that?"
-    };
-    v.textContent = '→ ' + responses[choice];
-  }
-
-  // =========================================================
-  //  TASK 7 · LINEAR VS NON-LINEAR
+  //  TASK 6 (was 7) · LINEAR VS NON-LINEAR
   // =========================================================
   function drawFunction(type) {
     const svg = document.getElementById('linearVsNot');

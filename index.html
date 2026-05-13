@@ -155,75 +155,28 @@
   }
   .btn-ghost:hover { border-color: var(--accent-yellow); color: var(--accent-yellow); }
 
-  /* Handwritten scribble — positioned next to the primary CTA, pointing right at it */
+  /* Decorative scribble in hero */
   .scribble-note {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-family: 'Caveat', cursive;
-    font-size: 26px;
-    color: var(--accent-pink);
-    line-height: 1.15;
-    pointer-events: none;
-    margin: 0 0 0 8px;
-    transform: rotate(-3deg);
-    order: 99; /* push to end of flex row */
-  }
-  .scribble-note .arrow-wiggle {
-    display: inline-block;
-    font-size: 34px;
-    line-height: 1;
-    transform: rotate(170deg);
-    color: var(--accent-pink);
-  }
-  @media (max-width: 900px) { .scribble-note { display: none; } }
-
-  /* Top-right corner — Pi mascot with googly eyes (pure SVG, reliable) */
-  .hero-mascot {
     position: absolute;
     top: 40px;
     right: 6vw;
-    width: 150px;
-    text-align: center;
-    pointer-events: none;
-    animation: mascot-float 4s ease-in-out infinite;
-    z-index: 5;
-  }
-  @keyframes mascot-float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-  }
-  .hero-mascot svg { width: 130px; height: auto; display: block; margin: 0 auto; }
-  .pi-pupil-left { animation: pupil-left 3s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
-  .pi-pupil-right { animation: pupil-right 3s ease-in-out infinite 0.4s; transform-origin: center; transform-box: fill-box; }
-  @keyframes pupil-left {
-    0%, 100% { transform: translate(0, 0); }
-    25% { transform: translate(3px, 0); }
-    50% { transform: translate(-3px, 1px); }
-    75% { transform: translate(0, -2px); }
-  }
-  @keyframes pupil-right {
-    0%, 100% { transform: translate(0, 0); }
-    25% { transform: translate(-3px, 1px); }
-    50% { transform: translate(3px, -1px); }
-    75% { transform: translate(0, 2px); }
-  }
-  .pi-eye-blink { animation: eye-blink 5s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
-  @keyframes eye-blink {
-    0%, 92%, 100% { transform: scaleY(1); }
-    94%, 98% { transform: scaleY(0.05); }
-  }
-  .mascot-caption {
     font-family: 'Caveat', cursive;
-    font-size: 17px;
-    color: rgba(244, 228, 193, 0.8);
+    font-size: 28px;
+    color: var(--accent-pink);
+    transform: rotate(6deg);
+    max-width: 220px;
+    text-align: right;
     line-height: 1.2;
-    transform: rotate(-2deg);
-    margin-top: 4px;
-    text-align: center;
   }
-
-  @media (max-width: 900px) { .hero-mascot { display: none; } }
+  .scribble-note::after {
+    content: "↓";
+    display: block;
+    font-size: 44px;
+    margin-top: 6px;
+    margin-right: 40px;
+    transform: rotate(-20deg);
+  }
+  @media (max-width: 900px) { .scribble-note { display: none; } }
 
   /* ============ SECTIONS ============ */
   section {
@@ -527,320 +480,12 @@
   footer a { color: var(--accent-cyan); text-decoration: none; border-bottom: 1px dashed rgba(74,211,224,0.4); }
   footer a:hover { color: var(--accent-yellow); border-color: var(--accent-yellow); }
 </style>
-  <style>
-  /* =====================================================
-     Mrs. Ali's Classroom — Universal Mobile Fixes
-     ===================================================== */
-
-  /* Prevent horizontal page scrolling at all costs */
-  html, body {
-    max-width: 100%;
-    overflow-x: hidden;
-  }
-
-  /* Make ALL images, SVGs, canvases, iframes fit their container */
-  img, svg, canvas, video, iframe {
-    max-width: 100%;
-    height: auto;
-  }
-
-  /* Canvases inside interactive tools sometimes have fixed pixel width.
-     Force them to respond to their parent. */
-  canvas {
-    max-width: 100% !important;
-    height: auto;
-  }
-
-  /* Wrap any <table> in an auto-scroll container.
-     The table itself scrolls inside that box, not the whole page.
-     This fixes "table overlaps other content when scrolling". */
-  @media (max-width: 768px) {
-    table {
-      display: block;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      white-space: nowrap;
-      max-width: 100%;
-    }
-    table thead, table tbody, table tr {
-      display: table;
-      width: 100%;
-      table-layout: fixed;
-    }
-    /* Let inputs inside tables breathe a little */
-    table input[type="text"],
-    table input[type="number"] {
-      width: 100% !important;
-      min-width: 60px;
-      box-sizing: border-box;
-    }
-  }
-
-  /* Enlarge tap targets on phones */
-  @media (max-width: 768px) {
-    button,
-    input[type="button"],
-    input[type="submit"],
-    input[type="reset"],
-    .btn, .hbtn, .pw-btn, .go-btn {
-      min-height: 44px;
-      padding: 10px 16px !important;
-      font-size: 15px !important;
-    }
-
-    /* Text inputs should be big enough to tap */
-    input[type="text"],
-    input[type="number"],
-    input[type="email"],
-    input[type="password"],
-    select,
-    textarea {
-      min-height: 40px;
-      font-size: 16px !important; /* prevents iOS from zooming on focus */
-      padding: 8px 10px;
-    }
-  }
-
-  /* Sliders: make them fill available width */
-  @media (max-width: 768px) {
-    input[type="range"] {
-      width: 100% !important;
-      max-width: 100%;
-      min-height: 44px; /* bigger thumb area to tap */
-    }
-  }
-
-  /* When there are multiple buttons in a row, stack them on narrow screens */
-  @media (max-width: 520px) {
-    .actions,
-    .controls,
-    .button-row,
-    .btn-row,
-    .hero-cta {
-      flex-direction: column;
-      align-items: stretch;
-    }
-    .actions button,
-    .controls button,
-    .button-row button,
-    .btn-row button,
-    .hero-cta a,
-    .hero-cta button {
-      width: 100%;
-      margin-left: 0 !important;
-    }
-  }
-
-  /* Prevent oversized fixed-width sections from overflowing */
-  @media (max-width: 768px) {
-    .wrap,
-    .container,
-    .content-wrap,
-    main,
-    section {
-      max-width: 100%;
-      padding-left: 14px;
-      padding-right: 14px;
-      box-sizing: border-box;
-    }
-    /* Don't double-pad nested elements */
-    main .wrap, section .container {
-      padding-left: 0;
-      padding-right: 0;
-    }
-  }
-
-  /* Make large headings scale down on small screens */
-  @media (max-width: 520px) {
-    h1 { font-size: 1.5rem !important; line-height: 1.15; }
-    h2 { font-size: 1.25rem !important; line-height: 1.2; }
-    h3 { font-size: 1.1rem !important; }
-    header h1 { font-size: 1.2rem !important; }
-  }
-
-  /* Grid layouts: collapse multi-column grids to single column */
-  @media (max-width: 768px) {
-    .row,
-    .grid,
-    .two-col,
-    .three-col,
-    .top-layout,
-    .charts-row,
-    .games-grid,
-    .paths-grid,
-    .tools-grid,
-    .trust-grid,
-    .try-grid,
-    .audience-tabs {
-      grid-template-columns: 1fr !important;
-      display: grid;
-      gap: 14px;
-    }
-  }
-
-  /* Fix common "card" patterns that have fixed widths */
-  @media (max-width: 768px) {
-    .card,
-    .kpi,
-    .chart-card,
-    .tool-card,
-    .game-card,
-    .try-card {
-      max-width: 100%;
-      box-sizing: border-box;
-    }
-  }
-
-  /* Better scroll behavior on touch */
-  @media (max-width: 768px) {
-    body {
-      -webkit-overflow-scrolling: touch;
-    }
-  }
-
-  /* Any element that explicitly sets a fixed width beyond the screen —
-     gently cap it */
-  @media (max-width: 500px) {
-    [style*="width:"],
-    [style*="width ="] {
-      max-width: 100%;
-    }
-  }
-</style>
 </head>
 <body>
-<nav class="mac-topnav" role="navigation" aria-label="Main navigation">
-  <a href="https://raaziaali.github.io/" class="mac-home-btn" aria-label="Back to Mrs. Ali's Classroom home">
-    <svg class="mac-home-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M19 12H5M12 19l-7-7 7-7"/>
-    </svg>
-    <span class="mac-home-text">Mrs. Ali's Classroom</span>
-  </a>
-</nav>
 
-<style>
-  .mac-topnav {
-    position: sticky;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 99999;
-    padding: 10px 16px;
-    background: rgba(10, 10, 31, 0.94);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid rgba(196, 181, 253, 0.2);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "DM Sans", sans-serif;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
-    box-sizing: border-box;
-    margin: 0;
-  }
-  .mac-home-btn {
-    display: inline-flex !important;
-    align-items: center;
-    gap: 8px;
-    color: #F8F9FF !important;
-    text-decoration: none !important;
-    font-size: 14px;
-    font-weight: 600;
-    padding: 6px 12px;
-    border-radius: 8px;
-    transition: background 0.2s, transform 0.2s, color 0.2s;
-    -webkit-tap-highlight-color: transparent;
-    border: none;
-    background: transparent;
-  }
-  .mac-home-btn:hover,
-  .mac-home-btn:focus {
-    background: rgba(0, 229, 255, 0.12) !important;
-    color: #00E5FF !important;
-    outline: none;
-  }
-  .mac-home-btn:active {
-    transform: translateX(-2px);
-  }
-  .mac-home-icon {
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-  }
-  .mac-home-text { white-space: nowrap; }
-  @media (max-width: 500px) {
-    .mac-topnav { padding: 8px 12px; }
-    .mac-home-text { font-size: 13px; }
-  }
-  .mac-topnav, .mac-topnav * { box-sizing: border-box; }
-  [data-mac-legacy-hidden="true"] { display: none !important; }
-</style>
-
-<script>
-  (function() {
-    function hideLegacyBackLinks() {
-      var patterns = [
-        /^\s*(\u2190|<-|\u2039|\u00ab|\u2039\u2039|\u2190+|<+)\s*back/i,
-        /^\s*back\s+to\b/i,
-        /^\s*back\s*(home|$)/i,
-        /^\s*home\s*$/i,
-        /portal\s*$/i,
-        /back\s+to\s+portal/i,
-        /back\s+to\s+home/i,
-        /return\s+to/i,
-        /all\s+tools/i
-      ];
-      var links = document.querySelectorAll('a, button');
-      for (var i = 0; i < links.length; i++) {
-        var el = links[i];
-        if (el.classList.contains('mac-home-btn')) continue;
-        if (el.closest && el.closest('.mac-topnav')) continue;
-        var text = (el.textContent || '').trim();
-        if (!text) continue;
-        for (var j = 0; j < patterns.length; j++) {
-          if (patterns[j].test(text)) {
-            el.setAttribute('data-mac-legacy-hidden', 'true');
-            break;
-          }
-        }
-      }
-    }
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', hideLegacyBackLinks);
-    } else {
-      hideLegacyBackLinks();
-    }
-  })();
-</script>
 <!-- ===================== HERO ===================== -->
 <section class="hero">
-  <div class="hero-mascot" aria-hidden="true">
-    <svg viewBox="0 0 140 150" xmlns="http://www.w3.org/2000/svg">
-      <!-- Pi symbol drawn as paths, not text, so fonts don't matter -->
-      <!-- Pink shadow behind Pi -->
-      <g transform="translate(4, 4)" opacity="0.5">
-        <rect x="20" y="20" width="100" height="12" rx="2" fill="#e8809a"/>
-        <rect x="32" y="32" width="14" height="76" rx="2" fill="#e8809a"/>
-        <rect x="94" y="32" width="14" height="70" rx="2" fill="#e8809a"/>
-        <path d="M 94 102 Q 102 118 116 110" stroke="#e8809a" stroke-width="12" fill="none" stroke-linecap="round"/>
-      </g>
-      <!-- Yellow Pi -->
-      <g>
-        <rect x="20" y="20" width="100" height="12" rx="2" fill="#f5d96e"/>
-        <rect x="32" y="32" width="14" height="76" rx="2" fill="#f5d96e"/>
-        <rect x="94" y="32" width="14" height="70" rx="2" fill="#f5d96e"/>
-        <path d="M 94 102 Q 102 118 116 110" stroke="#f5d96e" stroke-width="12" fill="none" stroke-linecap="round"/>
-      </g>
-      <!-- Googly eye 1 (left) -->
-      <g class="pi-eye-blink">
-        <circle cx="55" cy="65" r="13" fill="#fffaf0" stroke="#2d2438" stroke-width="2.5"/>
-        <circle class="pi-pupil-left" cx="55" cy="65" r="5" fill="#2d2438"/>
-      </g>
-      <!-- Googly eye 2 (right) -->
-      <g class="pi-eye-blink">
-        <circle cx="85" cy="65" r="13" fill="#fffaf0" stroke="#2d2438" stroke-width="2.5"/>
-        <circle class="pi-pupil-right" cx="85" cy="65" r="5" fill="#2d2438"/>
-      </g>
-    </svg>
-    <div class="mascot-caption">Built by<br>a real teacher</div>
-  </div>
+  <p class="scribble-note">start here<br>if you're curious</p>
 
   <div class="eyebrow">An interactive math experience · Grade 8</div>
 
@@ -862,10 +507,6 @@
     <a href="#about" class="btn-ghost">
       Learn more
     </a>
-    <span class="scribble-note">
-      <span class="arrow-wiggle">↪</span>
-      start here if you're curious
-    </span>
   </div>
 </section>
 
@@ -914,25 +555,25 @@
       <h4>A shape is growing</h4>
       <p>Discover linear functions through a visual growing pattern. Build a recipe that predicts any step — even step 1,000.</p>
     </div>
-    <div class="task-card" data-accent="cyan">
+    <div class="task-card" data-accent="violet">
       <div class="num">TASK 02</div>
+      <h4>Is it actually a function?</h4>
+      <p>Sort relations into functions and non-functions. Discover the vertical line test. Master domain and range — by arguing, not memorizing.</p>
+    </div>
+    <div class="task-card" data-accent="cyan">
+      <div class="num">TASK 03</div>
       <h4>Maya's mystery rental</h4>
       <p>Three clues. Two unknowns. Three different student methods. Which do you find most elegant — and why?</p>
     </div>
     <div class="task-card" data-accent="orange">
-      <div class="num">TASK 03</div>
+      <div class="num">TASK 04</div>
       <h4>A function in four outfits</h4>
       <p>Match stories, tables, graphs, and equations. Discover that a function is one idea wearing many faces.</p>
     </div>
     <div class="task-card" data-accent="violet">
-      <div class="num">TASK 04</div>
+      <div class="num">TASK 05</div>
       <h4>The slope playground</h4>
       <p>Predict before you play. Then drag sliders and tell stories that match negative slopes, zero slopes, steep slopes.</p>
-    </div>
-    <div class="task-card" data-accent="lime">
-      <div class="num">TASK 05</div>
-      <h4>Screens &amp; sleep</h4>
-      <p>Real scatter plot data. Does a line fit? Does correlation prove causation? Defend your thinking.</p>
     </div>
     <div class="task-card" data-accent="pink">
       <div class="num">TASK 06</div>
